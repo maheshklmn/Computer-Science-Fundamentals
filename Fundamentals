@@ -1,1 +1,40 @@
+# Operating System (OS) – Basics
 
+This repository contains the **basic concepts of Operating Systems**, focusing on their work, functions, and types.  
+It is designed for beginners to understand the role of an OS in a computer system with simple notes and examples.  
+
+---
+
+## 📌 Introduction
+- What is an Operating System?  
+- Importance of OS in computer systems  
+- OS as a resource manager  
+
+---
+
+## ⚙️ Functions of an Operating System
+1. Process Management  
+2. Memory Management  
+3. File System Management  
+4. Device Management  
+5. Security & Protection  
+6. User Interface  
+
+---
+
+## 🖥️ Types of Operating Systems
+- Batch Operating System  
+- Time-Sharing Operating System  
+- Distributed Operating System  
+- Real-Time Operating System  
+- Network Operating System  
+- Mobile Operating System  
+
+---
+
+## 📂 Contents
+- `notes/` → Theory notes on OS basics  
+- `examples/` → Small coding/programming examples related to OS concepts  
+- `diagrams/` → Illustrations of OS structures and types  
+
+---
