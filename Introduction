@@ -1,0 +1,36 @@
+# 🖥️ Introduction to Operating Systems
+
+## What is an Operating System?
+An **Operating System (OS)** is system software that acts as an **interface between the user and the computer hardware**.  
+It manages hardware resources and provides an environment where application programs can run efficiently.
+
+---
+
+## Why Do We Need an OS?
+- To manage hardware resources like CPU, memory, and I/O devices.  
+- To provide a user-friendly interface for interaction with the system.  
+- To ensure fairness, efficiency, and security in system usage.  
+
+---
+
+## Key Roles of an OS
+1. **Resource Manager** → Allocates CPU, memory, and I/O devices to programs.  
+2. **Program Executor** → Runs applications and handles multitasking.  
+3. **User Interface Provider** → Offers CLI (Command Line Interface) or GUI (Graphical User Interface).  
+4. **Security & Protection** → Protects data and ensures safe access.  
+
+---
+
+## Example Operating Systems
+- **Desktop OS** → Windows, Linux, macOS  
+- **Mobile OS** → Android, iOS  
+- **Server OS** → Unix, Red Hat Enterprise Linux, Windows Server  
+
+---
+
+## Diagram: User → OS → Hardware
+```mermaid
+flowchart LR
+    A[User] --> B[Operating System]
+    B --> C[Hardware]
+    B --> D[Applications]
