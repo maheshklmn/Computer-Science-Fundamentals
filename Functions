@@ -1,0 +1,60 @@
+# ⚙️ Functions of an Operating System
+
+The **Operating System (OS)** acts as a manager of all resources in a computer system.  
+Its major functions are as follows:
+
+---
+
+## 1. Process Management
+- Handles the creation, scheduling, and termination of processes.  
+- Ensures fair CPU allocation among multiple processes.  
+- Provides mechanisms like **multitasking, context switching, and synchronization**.  
+
+---
+
+## 2. Memory Management
+- Allocates and deallocates memory space as needed by programs.  
+- Keeps track of which parts of memory are free or in use.  
+- Supports techniques like **paging, segmentation, and virtual memory**.  
+
+---
+
+## 3. File System Management
+- Manages data storage on disks in the form of files and directories.  
+- Provides file-related operations: **create, read, write, delete, modify**.  
+- Ensures data protection, access permissions, and efficient retrieval.  
+
+---
+
+## 4. I/O Device Management
+- Controls and coordinates input/output devices like keyboard, printer, disk.  
+- Uses **device drivers** to interact with hardware.  
+- Implements **buffering, caching, and spooling** for efficiency.  
+
+---
+
+## 5. Security & Protection
+- Protects system resources from unauthorized access.  
+- Provides authentication (passwords, biometrics) and access control.  
+- Ensures safe execution of programs without interfering with each other.  
+
+---
+
+## 6. User Interface
+- Provides a way for users to interact with the system.  
+- Can be:
+  - **CLI (Command Line Interface)** – text-based interaction  
+  - **GUI (Graphical User Interface)** – windows, icons, menus  
+
+---
+
+## 🖼️ Diagram – OS Functions
+
+```mermaid
+flowchart TB
+    A[Operating System] --> B[Process Management]
+    A --> C[Memory Management]
+    A --> D[File System Management]
+    A --> E[I/O Device Management]
+    A --> F[Security & Protection]
+    A --> G[User Interface]
