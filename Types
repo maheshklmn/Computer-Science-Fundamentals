@@ -1,0 +1,71 @@
+# 🖥️ Types of Operating Systems
+
+Operating Systems can be classified based on how they manage resources, handle users, and execute programs.  
+Below are the main types:
+
+---
+
+## 1. Batch Operating System
+- Executes jobs in batches without user interaction.  
+- Jobs are collected, grouped, and processed sequentially.  
+- Example: Early IBM mainframes.  
+✅ *Advantage:* High CPU utilization.  
+❌ *Limitation:* No real-time interaction with the user.  
+
+---
+
+## 2. Time-Sharing Operating System
+- Allows multiple users to share the system simultaneously.  
+- CPU time is divided into small time slots (time quantum).  
+- Example: UNIX.  
+✅ *Advantage:* Interactive, supports multitasking.  
+❌ *Limitation:* Requires complex scheduling.  
+
+---
+
+## 3. Distributed Operating System
+- Runs on a network of interconnected computers.  
+- Appears as a single system to the user.  
+- Example: LOCUS, Amoeba.  
+✅ *Advantage:* Resource sharing, fault tolerance.  
+❌ *Limitation:* Expensive and complex to implement.  
+
+---
+
+## 4. Real-Time Operating System (RTOS)
+- Provides immediate response to inputs or events.  
+- Used in critical applications like medical systems, robotics, and defense.  
+- Example: VxWorks, QNX, RTLinux.  
+✅ *Advantage:* Predictable and reliable.  
+❌ *Limitation:* Very limited flexibility, costly.  
+
+---
+
+## 5. Network Operating System (NOS)
+- Provides services to computers connected via a network.  
+- Supports file sharing, printer access, and communication.  
+- Example: Windows Server, Novell NetWare.  
+✅ *Advantage:* Centralized management.  
+❌ *Limitation:* Dependent on network availability.  
+
+---
+
+## 6. Mobile Operating System
+- Designed specifically for smartphones and tablets.  
+- Provides touch interface, app stores, and connectivity.  
+- Example: Android, iOS.  
+✅ *Advantage:* Optimized for mobility and usability.  
+❌ *Limitation:* Limited hardware control compared to desktop OS.  
+
+---
+
+## 🖼️ Diagram – Types of OS
+
+```mermaid
+flowchart TD
+    A[Types of OS] --> B[Batch]
+    A --> C[Time-Sharing]
+    A --> D[Distributed]
+    A --> E[Real-Time]
+    A --> F[Network]
+    A --> G[Mobile]
