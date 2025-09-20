@@ -1,0 +1,46 @@
+/*
+What is a class in OOP?
+
+A class is like a blueprint for creating objects.
+
+It defines properties (variables / attributes) and behaviors (methods / functions).
+
+An object is an actual instance of a class.
+
+Think of a class as a "plan" for a house, and an object as the "house" built from that plan.
+
+*/
+
+
+// Defining a class
+class Car {
+    // Properties (Attributes)
+    String brand;
+    int year;
+
+    // Constructor (used to initialize objects)
+    Car(String brand, int year) {
+        this.brand = brand;
+        this.year = year;
+    }
+
+    // Method (Behavior)
+    void displayInfo() {
+        System.out.println("Brand: " + brand + ", Year: " + year);
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        // Creating objects (instances of Car class)
+        Car car1 = new Car("Tesla", 2022);
+        Car car2 = new Car("Toyota", 2020);
+
+        // Calling methods on objects
+        car1.displayInfo();
+        car2.displayInfo();
+    }
+}
+
+
