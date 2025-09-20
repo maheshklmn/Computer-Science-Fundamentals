@@ -1,1 +1,58 @@
+/*
+What is an Object?
 
+An object is a real-world entity that has state (data) and behavior (actions).
+
+In Java, an object is created from a class.
+
+Think of a class as a blueprint, and an object as a real thing built using that blueprint.
+
+
+*/
+
+
+// Class is the blueprint
+class Car {
+    // State (attributes)
+    String brand;
+    String color;
+    int speed;
+
+    // Behavior (methods)
+    void drive() {
+        System.out.println(brand + " is driving at " + speed + " km/h");
+    }
+
+    void stop() {
+        System.out.println(brand + " has stopped.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating objects (instances of Car)
+        Car car1 = new Car();
+        car1.brand = "BMW";
+        car1.color = "Black";
+        car1.speed = 120;
+
+        Car car2 = new Car();
+        car2.brand = "Tesla";
+        car2.color = "Red";
+        car2.speed = 150;
+
+        // Using objects
+        car1.drive(); // Output: BMW is driving at 120 km/h
+        car2.drive(); // Output: Tesla is driving at 150 km/h
+        car1.stop();  // Output: BMW has stopped.
+    }
+}
+
+
+/*
+Key Points:
+1. Class = Blueprint (Car)
+2. Object = Instance of class (car1, car2)
+3. Attributes = Variables (brand, color, speed)
+4. Methods = Actions (drive, stop)
+*/
