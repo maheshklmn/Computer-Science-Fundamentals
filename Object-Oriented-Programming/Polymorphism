@@ -1,0 +1,40 @@
+Polymorphism means "many forms". It allows an object to take on many forms, most commonly by using a parent class reference to refer to a child class object.
+
+In simple terms: One action can be performed in different ways.
+
+
+// Superclass
+class Animal {
+    public void makeSound() {
+        System.out.println("Some generic animal sound");
+    }
+}
+
+// Subclass 1
+class Dog extends Animal {
+    @Override
+    public void makeSound() { // Same method, different form
+        System.out.println("Woof!");
+    }
+}
+
+// Subclass 2
+class Cat extends Animal {
+    @Override
+    public void makeSound() { // Same method, different form
+        System.out.println("Meow!");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Polymorphism in action:
+        Animal myAnimal = new Animal(); // Animal form
+        Animal myDog = new Dog();       // Dog form
+        Animal myCat = new Cat();       // Cat form
+
+        myAnimal.makeSound(); // Outputs: "Some generic animal sound"
+        myDog.makeSound();    // Outputs: "Woof!"
+        myCat.makeSound();    // Outputs: "Meow!"
+    }
+}
