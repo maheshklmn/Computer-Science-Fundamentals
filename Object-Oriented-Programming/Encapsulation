@@ -1,0 +1,54 @@
+/*
+
+Encapsulation is the practice of bundling the data (variables) and the methods (functions) that operate on the data into a single unit (a class) and restricting direct access to some of the object's components.
+
+In simple terms: It's like a capsule that protects the medicine inside. You can use the medicine through the capsule, but you can't touch it directly.
+
+The main goal is to:
+
+Protect the internal state of an object from unintended or invalid modification.
+
+Make the code more manageable and secure.
+
+*/
+
+public class BankAccount {
+    // Private data (hidden from the outside world)
+    private double balance;
+    private String accountNumber;
+
+    // Public constructor
+    public BankAccount(String accountNumber) {
+        this.accountNumber = accountNumber;
+        this.balance = 0.0;
+    }
+
+    // Public getter method to READ the balance
+    public double getBalance() {
+        return balance;
+    }
+
+    // Public setter method to UPDATE the balance with validation
+    public void deposit(double amount) {
+        if (amount > 0) { // Control how the data is changed
+            balance += amount;
+        }
+    }
+
+    // We can control what data is even visible.
+    // Notice there is NO setter for accountNumber!
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount("12345");
+
+        account.deposit(100.0); // Allowed: Using public method
+        // account.balance = 1000000; // NOT ALLOWED! Compile error because 'balance' is private.
+
+        System.out.println("Account " + account.getAccountNumber() + " has balance: $" + account.getBalance());
+    }
+}
