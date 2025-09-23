@@ -1,0 +1,38 @@
+/*
+Inheritance is a mechanism where a new class (child class) acquires the properties and behaviors (methods and fields) of an existing class (parent class).
+
+In simple terms: It's like a child inheriting traits from a parent. The child can have all the parent's features and also have its own unique features.
+
+
+*/
+
+// Parent class (also called superclass)
+class Animal {
+    public void eat() {
+        System.out.println("This animal eats food.");
+    }
+}
+
+// Child class (also called subclass)
+// Dog INHERITS from Animal
+class Dog extends Animal {
+    // Dog automatically has the eat() method from Animal
+
+    // Dog's own unique method
+    public void bark() {
+        System.out.println("Woof! Woof!");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog myDog = new Dog();
+
+        myDog.eat();   // Inherited method from Animal
+        myDog.bark();  // Its own method
+
+        // Output:
+        // This animal eats food.
+        // Woof! Woof!
+    }
+}
