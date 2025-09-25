@@ -1,0 +1,29 @@
+/*
+Exception Handling is a programming mechanism to handle runtime errors gracefully so that the normal flow of the application can be maintained.
+
+In simple terms: It's like having a plan B for when something goes wrong. Instead of the program crashing, you can catch the error and deal with it.
+
+
+*/
+
+
+public class Example {
+    public static void main(String[] args) {
+        int[] numbers = {1, 2, 3};
+
+        try {
+            // This code might throw an exception
+            System.out.println(numbers[5]); // Trying to access an invalid index
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            // This code runs ONLY if the exception occurs (Plan B)
+            System.out.println("Error: That index doesn't exist!");
+        }
+        finally {
+            // This code ALWAYS runs, error or not (e.g., for cleanup)
+            System.out.println("This message always prints.");
+        }
+
+        System.out.println("Program continues normally...");
+    }
+}
