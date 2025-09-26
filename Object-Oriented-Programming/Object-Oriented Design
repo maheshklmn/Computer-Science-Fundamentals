@@ -1,0 +1,75 @@
+/*
+Object-Oriented Design is the process of planning and structuring a software system as a collection of interacting objects. It focuses on using principles like Encapsulation, Inheritance, and Polymorphism to create a system that is modular, reusable, and easy to maintain.
+
+In simple terms: It's like blueprinting a house before building it. You decide what the rooms (objects) are, what they do (methods), and how they connect to each other.
+
+
+Core Principles (often remembered as SOLID - a subset)
+S - Single Responsibility: A class should have one, and only one, reason to change.
+
+O - Open/Closed: Classes should be open for extension but closed for modification.
+
+L - Liskov Substitution: Subclasses should be substitutable for their base classes.
+
+I - Interface Segregation: Prefer many small, specific interfaces over one large, general-purpose one.
+
+D - Dependency Inversion: Depend on abstractions (interfaces), not concrete classes.
+
+
+*/
+
+// 1. Identify core objects (Nouns): Book, Library, Member
+// 2. Identify their responsibilities (Verbs): Book can be borrowed, Library manages books, Member borrows books.
+
+// A simple Book class with data (encapsulation)
+class Book {
+    private String title;
+    private String author;
+    private boolean isBorrowed;
+
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+        this.isBorrowed = false;
+    }
+    // Getters and setters (public interface)
+    public boolean isBorrowed() { return isBorrowed; }
+    public void setBorrowed(boolean borrowed) { isBorrowed = borrowed; }
+    public String getTitle() { return title; }
+}
+
+// A Library class that manages a collection of Books
+class Library {
+    private List<Book> books = new ArrayList<>();
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    // The Library handles the logic of borrowing a book
+    public void borrowBook(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equals(title) && !book.isBorrowed()) {
+                book.setBorrowed(true);
+                System.out.println("You have borrowed: " + title);
+                return;
+            }
+        }
+        System.out.println("Sorry, '" + title + "' is not available.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Create objects and make them interact
+        Book book1 = new Book("The Catcher in the Rye", "J.D. Salinger");
+        Book book2 = new Book("To Kill a Mockingbird", "Harper Lee");
+
+        Library myLibrary = new Library();
+        myLibrary.addBook(book1);
+        myLibrary.addBook(book2);
+
+        myLibrary.borrowBook("The Catcher in the Rye"); // Success
+        myLibrary.borrowBook("The Catcher in the Rye"); // Not available
+    }
+}
