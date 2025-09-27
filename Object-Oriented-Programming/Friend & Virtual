@@ -1,0 +1,54 @@
+1. Friend (A C++ Concept)
+What it is: In C++, a friend function or class is one that is allowed to access the private and protected members of another class. It breaks the principle of encapsulation for specific, trusted cases.
+
+Java Equivalent: Java does not have a friend keyword. The closest equivalents are:
+
+Package-Private (Default) Access: Classes in the same package can access each other's default (no modifier) and protected members.
+
+Getters/Setters: The standard way to provide controlled access.
+
+/*
+class SecretKeeper {
+private:
+    int secret = 42;
+    // Declare a friend function
+    friend void revealSecret(SecretKeeper &sk);
+};
+
+// This function is NOT a member of SecretKeeper but can access private members
+void revealSecret(SecretKeeper &sk) {
+    cout << "The secret is: " << sk.secret; // Direct access to private member!
+}
+
+*/
+
+
+---
+
+2. Virtual (A C++ Concept vs. Java's Default)
+What it is: In C++, a virtual function is a function in a base class that you expect to be overridden in derived classes. It enables polymorphism. Without virtual, function calls are resolved at compile-time (early binding), not at runtime.
+
+Java Equivalent: In Java, all non-static, non-private methods are inherently "virtual" by default. You don't need a keyword. The JVM always uses late binding for method calls (runtime polymorphism).
+
+/*
+class Animal {
+public:
+    virtual void makeSound() { // 'virtual' keyword is crucial
+        cout << "Some sound";
+    }
+};
+
+class Dog : public Animal {
+public:
+    void makeSound() override { // Overrides the virtual function
+        cout << "Woof!";
+    }
+};
+
+int main() {
+    Animal* myAnimal = new Dog();
+    myAnimal->makeSound(); // Outputs "Woof!" because makeSound() is virtual.
+}
+
+
+*/
