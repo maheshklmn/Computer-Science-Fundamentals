@@ -1,0 +1,47 @@
+/*
+1. Constructor (Ctor)
+What it is: A special method that is automatically called when an object is created. Its primary job is to initialize the object's state (assign initial values to variables).
+
+Key Points:
+
+It has the same name as the class.
+
+It has no return type, not even void.
+
+2. Destructor (Dtor)
+What it is: A special method that is automatically called when an object is destroyed (e.g., goes out of scope). Its job is to perform cleanup tasks, like closing files or releasing memory.
+
+Important Distinction: Java has automatic garbage collection and does not have destructors like C++. The closest equivalent is the finalize() method, but it is unpredictable and deprecated (should not be used). Java uses try-with-resources and close() methods for cleanup.
+
+
+*/
+
+
+public class Car {
+    private String brand;
+    private int year;
+
+    // 1. Constructor (Ctor)
+    // Called when we write: new Car("Toyota", 2023);
+    public Car(String carBrand, int carYear) {
+        brand = carBrand; // Initialize the brand field
+        year = carYear;   // Initialize the year field
+        System.out.println("A Car object is created!");
+    }
+
+    public void displayInfo() {
+        System.out.println("Brand: " + brand + ", Year: " + year);
+    }
+
+    // 2. Java does NOT have a Dtor you should write.
+    // The Garbage Collector handles memory cleanup automatically.
+
+    public static void main(String[] args) {
+        // Creating an object calls the constructor
+        Car myCar = new Car("Toyota", 2023);
+        myCar.displayInfo();
+
+        // When myCar goes out of scope, it becomes eligible for garbage collection.
+        // No need for a destructor.
+    }
+}
