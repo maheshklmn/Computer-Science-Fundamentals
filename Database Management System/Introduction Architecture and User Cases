@@ -1,0 +1,24 @@
+/*
+Database Architecture
+Database Architecture refers to the design and structure of a database system. It's the blueprint of how data is stored, organized, and accessed.
+
+The most common architecture is the Three-Schema Architecture, which separates the user view from the physical storage:
+
+External Level (View Level): How users see the data. Different users can have different views.
+
+Conceptual Level (Logical Level): What data is stored and the relationships between them. This is the overall database design (e.g., ER Diagrams).
+
+Internal Level (Physical Level): How the data is physically stored on the system (files, indices, etc.).
+
+In simple terms: Think of a library.
+
+External: The catalog system you search (you see titles and authors).
+
+Conceptual: The librarian's master plan for organizing all books by genre, author, etc.
+
+Internal: The actual shelves, boxes, and storage rooms in the basement.
+
+
+
+
+*/
