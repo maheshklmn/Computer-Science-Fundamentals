@@ -1,0 +1,50 @@
+/*
+An ERD is a visual diagram that describes the structure of a database. It shows the main elements:
+
+Entities: The "things" or objects we want to store data about (e.g., Student, Course). Represented by rectangles.
+
+Attributes: The properties or details of an entity (e.g., Student_ID, Student_Name). Represented by ovals.
+
+Relationships: How two or more entities are connected to each other (e.g., A Student enrolls in a Course). Represented by diamonds.
+
+In simple terms: It's like a blueprint for your data before you build the database. It helps you plan the tables and how they link together.
+
+      [Enrolls-In]          (M:N Relationship)
+      /          \
+     /            \
+[Student]       [Course]
+    |               |
+ (Attributes)    (Attributes)
+ - Student_ID (PK) - Course_ID (PK)
+ - Name            - Title
+ - Email           - Credits
+
+*/
+
+
+-- 1. The Student Entity becomes a table.
+CREATE TABLE Student (
+    student_id INT PRIMARY KEY, -- PK
+    name VARCHAR(100),
+    email VARCHAR(255)
+);
+
+-- 2. The Course Entity becomes a table.
+CREATE TABLE Course (
+    course_id INT PRIMARY KEY, -- PK
+    title VARCHAR(255),
+    credits INT
+);
+
+-- 3. The M:N "Enrolls-In" Relationship becomes a new LINKING TABLE.
+-- This table solves the M:N problem.
+CREATE TABLE Enrollment (
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE,
+    -- The primary key is the combination of both foreign keys
+    PRIMARY KEY (student_id, course_id),
+    -- These are Foreign Keys (FK) that create the links
+    FOREIGN KEY (student_id) REFERENCES Student(student_id),
+    FOREIGN KEY (course_id) REFERENCES Course(course_id)
+);
