@@ -28,6 +28,11 @@ Insertion Anomaly	Unable to add new data because other required data is missing.
 Update Anomaly	Inconsistent data due to updating some, but not all, copies of repeated data.	Changing a professor's department in one row but not others, leaving conflicting information.
 Deletion Anomaly	Accidentally deleting other data when removing a row.	Deleting the only Professor in the Physics department also deletes the Physics department itself.
 
+
+
+
+*/
+
 CREATE TABLE ProfessorBad (
     professor_id INT PRIMARY KEY,
     professor_name VARCHAR(100),
@@ -35,5 +40,17 @@ CREATE TABLE ProfessorBad (
     department_phone VARCHAR(15)  -- Repeated data!
 );
 
+-- Table 1: Holds unique department information
+CREATE TABLE Department (
+    department_id INT PRIMARY KEY, -- PK
+    department_name VARCHAR(100) UNIQUE,
+    phone VARCHAR(15)
+);
 
-*/
+-- Table 2: Holds professor information with a link to Department
+CREATE TABLE Professor (
+    professor_id INT PRIMARY KEY, -- PK
+    professor_name VARCHAR(100),
+    department_id INT, -- FK to Department
+    FOREIGN KEY (department_id) REFERENCES Department(department_id)
+);
