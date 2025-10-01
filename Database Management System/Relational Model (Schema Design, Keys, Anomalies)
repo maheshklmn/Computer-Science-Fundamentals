@@ -1,0 +1,39 @@
+/*
+What is the Relational Model?
+The Relational Model is a method for structuring data into tables (called "relations") consisting of rows and columns. It's the foundation for most modern database systems like MySQL, PostgreSQL, and Oracle.
+
+1. Schema Design
+A database schema is the blueprint that describes the structure of the database: the tables, their columns, data types, and the relationships between them.
+
+In simple terms: If a table is a spreadsheet, the schema is the plan that defines what each column is for.
+
+Example Schema for a Students table:
+
+Table Name: Students
+
+Columns: student_id (INT), name (VARCHAR), major (VARCHAR)
+
+2. Keys
+Keys are attributes used to identify and relate rows in tables uniquely.
+
+Key Type	Purpose	Example
+Primary Key (PK)	Uniquely identifies a single row in a table. Cannot be NULL.	student_id in the Students table.
+Foreign Key (FK)	Creates a link between two tables. It references the Primary Key of another table.	course_id in an Enrollments table, which links back to the Courses table.
+
+3. Anomalies
+Anomalies are problems that occur in a poorly designed database, often due to data redundancy (repetition).
+
+Anomaly Type	Problem	Example
+Insertion Anomaly	Unable to add new data because other required data is missing.	Cannot add a new Department until at least one Professor is hired for it.
+Update Anomaly	Inconsistent data due to updating some, but not all, copies of repeated data.	Changing a professor's department in one row but not others, leaving conflicting information.
+Deletion Anomaly	Accidentally deleting other data when removing a row.	Deleting the only Professor in the Physics department also deletes the Physics department itself.
+
+CREATE TABLE ProfessorBad (
+    professor_id INT PRIMARY KEY,
+    professor_name VARCHAR(100),
+    department_name VARCHAR(100), -- Repeated data!
+    department_phone VARCHAR(15)  -- Repeated data!
+);
+
+
+*/
