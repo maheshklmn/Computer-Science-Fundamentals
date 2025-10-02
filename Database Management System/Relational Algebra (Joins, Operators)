@@ -1,0 +1,56 @@
+/*
+Relational Algebra is a theoretical language for querying databases. It consists of a set of operations that take one or two tables as input and produce a new table as output. It's the foundation for the SQL language.
+
+In simple terms: It's like a toolbox of operations (like filters, glue, and cookie cutters) for working with tables of data.
+
+1. Selection (σ) - Filter Rows
+Find all students majoring in Physics.
+
+Relational Algebra:
+σ_(major='Physics')(Students)
+
+SQL Equivalent:
+
+sql
+SELECT * FROM Students
+WHERE major = 'Physics';
+
+2. Projection (π) - Select Columns
+Get only the names and majors of all students.
+
+Relational Algebra:
+π_(name, major)(Students)
+
+SQL Equivalent:
+
+sql
+SELECT name, major FROM Students;
+
+3. Join (⨝) - Combine Related Rows
+Find all courses taken by students, showing the student name and course title.
+This combines the tables where Students.student_id = Courses.student_id.
+
+Relational Algebra:
+Students ⨝_(Students.student_id = Courses.student_id) Courses
+
+SQL Equivalent:
+
+sql
+SELECT s.name, c.title
+FROM Students s
+JOIN Courses c ON s.student_id = c.student_id;
+
+4. Cross Product (×) - All Combinations
+Combine every student with every course.
+
+Relational Algebra:
+Students × Courses
+
+SQL Equivalent:
+
+sql
+SELECT * FROM Students, Courses;
+-- or
+SELECT * FROM Students CROSS JOIN Courses;
+
+*/
