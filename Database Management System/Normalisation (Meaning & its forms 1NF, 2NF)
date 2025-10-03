@@ -1,0 +1,28 @@
+/*
+Normalization is the process of organizing data in a database to reduce redundancy and improve data integrity. It involves breaking down a large, complex table into smaller, related tables.
+
+In simple terms: It's the "clean-up" rulebook for your database to avoid storing the same information in multiple places.
+
+Main Goal: To eliminate Anomalies (Insertion, Update, Deletion) we discussed earlier.
+
+Normal Forms
+Normalization is done in stages, called "Normal Forms." Each form has a set of rules the database must follow.
+
+1. First Normal Form (1NF)
+Rule: A table is in 1NF if:
+
+All columns contain atomic (indivisible) values.
+
+Each column has a single value per row (no lists or sets).
+
+All entries in a column are of the same data type.
+
+2. Second Normal Form (2NF)
+Rule: A table is in 2NF if:
+
+It is already in 1NF.
+
+It has no partial dependency—meaning no non-prime attribute (an attribute not part of any candidate key) is dependent on only a part of the primary key.
+
+In simple terms: If a table has a composite primary key (a key made of multiple columns), every other column must describe the full key, not just part of it.
+*/
