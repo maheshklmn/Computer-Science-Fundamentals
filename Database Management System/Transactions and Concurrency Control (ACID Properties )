@@ -1,0 +1,86 @@
+/*
+A transaction is a single logical unit of work that accesses or modifies the content of a database. It consists of one or more SQL statements.
+
+In simple terms: It's a bundle of operations that must be executed all together or not at all. The classic example is a bank transfer.
+
+ACID Properties
+ACID is a set of four properties that guarantee database transactions are processed reliably.
+
+Atomicity
+Meaning: "All or Nothing"
+
+A transaction is treated as a single, indivisible unit. Either all of its operations are executed, or none are.
+
+Example: In a bank transfer, if either the debit or credit operation fails, the entire transaction is rolled back.
+
+Consistency
+Meaning: "From one valid state to another"
+
+A transaction must bring the database from one valid state to another valid state, preserving all database rules and constraints.
+
+Example: After a transfer, the total money in the banking system should remain the same (debit + credit = 0).
+
+Isolation
+Meaning: "Transactions don't interfere"
+
+Concurrent execution of transactions results in a system state that would be obtained if transactions were executed sequentially.
+
+Example: While one user is transferring money, another user viewing account balances should see consistent data.
+
+Durability
+Meaning: "Once done, it stays done"
+
+Once a transaction has been committed, it will remain committed even in the case of a system failure.
+
+Example: After a successful transfer, the changes persist even if the database server crashes immediately after.
+
+Concurrency Control
+Concurrency control manages simultaneous transactions to prevent conflicts and maintain data consistency.
+
+Common Problems Without Concurrency Control
+Dirty Read
+
+Reading uncommitted data from another transaction that might roll back.
+
+Non-repeatable Read
+
+Getting different values when reading the same data multiple times within the same transaction because another transaction modified it.
+
+Phantom Read
+
+Seeing new rows that were inserted by other transactions when re-executing a query.
+
+Solutions
+Locking
+
+Transactions acquire locks on data items to prevent other transactions from accessing them concurrently.
+
+Isolation Levels
+
+Different levels of isolation that balance consistency vs performance:
+
+READ UNCOMMITTED
+
+READ COMMITTED
+
+REPEATABLE READ
+
+SERIALIZABLE
+
+
+
+*/
+
+-- Start a transaction
+START TRANSACTION;
+
+-- Transfer $100 from account 101 to account 102
+UPDATE Accounts SET balance = balance - 100 WHERE account_id = 101;
+UPDATE Accounts SET balance = balance + 100 WHERE account_id = 102;
+
+-- Check if both operations were successful
+-- If yes, commit the changes permanently
+COMMIT;
+
+-- If any operation failed, we would instead execute:
+-- ROLLBACK;
