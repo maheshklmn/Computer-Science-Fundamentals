@@ -1,0 +1,112 @@
+/*
+Indexing is a database optimization technique that speeds up data retrieval operations on a database table. It works like the index in a book - instead of scanning every page, you can quickly find what you're looking for.
+
+In simple terms: An index is a separate data structure that maintains a copy of part of your table data in a way that allows for faster searching.
+
+B-Tree (Balanced Tree)
+A self-balancing tree data structure that maintains sorted data
+
+All leaf nodes are at the same level
+
+Each node can have multiple keys and children
+
+Suitable for both random and sequential access
+
+Properties:
+
+Every node has between m/2 and m children (where m is the order of the tree)
+
+All leaf nodes appear at the same level
+
+Keys in nodes are sorted
+
+B+ Tree
+An advanced version of B-Tree that is better suited for database systems
+
+All actual data is stored in the leaf nodes
+
+Internal nodes only contain keys for indexing
+
+Leaf nodes are linked together for efficient range queries
+
+Key Advantages over B-Tree:
+
+Faster range queries (leaf nodes are linked)
+
+More keys per node (internal nodes only store keys, not data)
+
+Better suited for disk-based storage systems
+
+
+How B+ Trees Work
+Structure:
+Root Node: The top-level node
+
+Internal Nodes: Middle layers that route searches
+
+Leaf Nodes: Bottom level containing actual data pointers
+
+Linked Leaves: All leaf nodes are connected in a linked list
+
+Search Process:
+Start at the root node
+
+Compare search key with node keys to determine which child to follow
+
+Move down through internal nodes
+
+Reach leaf node containing the data pointer
+
+Follow pointer to actual data
+
+
+Real-World Analogy
+Think of a library:
+
+Without index: Check every bookshelf to find a specific book
+
+With card catalog (B-Tree): Find book by title, author, or subject
+
+With digital system (B+ Tree): Computer system with hierarchical categories and direct links to book locations
+
+When to Use Indexing
+Good for indexing:
+
+Primary keys and foreign keys
+
+Columns frequently used in WHERE clauses
+
+Columns used in JOIN conditions
+
+Columns used for sorting (ORDER BY)
+
+Avoid indexing:
+
+Small tables
+
+Columns with few unique values (like gender flags)
+
+Tables with frequent write operations (inserts/updates/deletes)
+
+Columns rarely used in queries
+
+Key Takeaway
+Indexing using B+ Trees provides an efficient way to organize and access data in database systems. The B+ Tree's structure - with data only in leaf nodes and linked leaves - makes it ideal for database operations, supporting both point queries and range queries efficiently while being optimized for disk storage systems.
+
+
+
+*/
+
+
+
+-- Creating an index on a table
+CREATE INDEX idx_customer_email ON Customers(email);
+
+-- Creating a unique index
+CREATE UNIQUE INDEX idx_customer_id ON Customers(customer_id);
+
+-- Composite index on multiple columns
+CREATE INDEX idx_name_location ON Employees(last_name, department);
+
+-- Viewing index usage in a query (most databases will use index automatically)
+EXPLAIN SELECT * FROM Customers WHERE email = 'alice@example.com';
