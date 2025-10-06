@@ -1,0 +1,213 @@
+/*
+SQL (Structured Query Language) is the standard language for managing and manipulating relational databases. It allows you to create, read, update, and delete data.
+
+In simple terms: SQL is how you "talk" to a database to get information or make changes.
+
+DDL (Data Definition Language)
+Defines the database structure
+
+Commands: CREATE, ALTER, DROP, TRUNCATE
+
+DML (Data Manipulation Language)
+Manages data within database objects
+
+Commands: SELECT, INSERT, UPDATE, DELETE
+
+DCL (Data Control Language)
+Controls access to the database
+
+Commands: GRANT, REVOKE
+
+TCL (Transaction Control Language)
+Manages transactions
+
+Commands: COMMIT, ROLLBACK, SAVEPOINT
+
+
+
+
+*/
+
+-- Employees Table
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    department VARCHAR(50),
+    salary DECIMAL(10,2),
+    hire_date DATE
+);
+
+-- Projects Table
+CREATE TABLE Projects (
+    project_id INT PRIMARY KEY,
+    project_name VARCHAR(100),
+    emp_id INT,
+    deadline DATE,
+    FOREIGN KEY (emp_id) REFERENCES Employees(emp_id)
+);
+
+
+1. Basic SELECT Queries
+Select all columns:
+
+sql
+SELECT * FROM Employees;
+Select specific columns:
+
+sql
+SELECT name, department FROM Employees;
+Select with aliases:
+
+sql
+SELECT name AS employee_name, department AS dept FROM Employees;
+
+2. Filtering Data (WHERE Clause)
+Simple condition:
+
+sql
+SELECT * FROM Employees WHERE department = 'IT';
+Multiple conditions:
+
+sql
+SELECT * FROM Employees 
+WHERE department = 'IT' AND salary > 50000;
+Using IN operator:
+
+sql
+SELECT * FROM Employees 
+WHERE department IN ('IT', 'HR', 'Finance');
+
+Pattern matching with LIKE:
+
+sql
+SELECT * FROM Employees 
+WHERE name LIKE 'A%';  -- Names starting with 'A'
+Date filtering:
+
+sql
+SELECT * FROM Employees 
+WHERE hire_date > '2023-01-01';
+
+3. Sorting Data (ORDER BY)
+Ascending order (default):
+
+sql
+SELECT * FROM Employees ORDER BY name;
+Descending order:
+
+sql
+SELECT * FROM Employees ORDER BY salary DESC;
+Multiple sort criteria:
+
+sql
+SELECT * FROM Employees 
+ORDER BY department ASC, salary DESC;
+
+4. Aggregation Functions
+Count records:
+
+sql
+SELECT COUNT(*) FROM Employees;
+Group by department:
+
+sql
+SELECT department, COUNT(*) as employee_count
+FROM Employees
+GROUP BY department;
+Average salary per department:
+
+sql
+SELECT department, AVG(salary) as avg_salary
+FROM Employees GROUP BY salary;
+Having clause (filter groups):
+
+sql
+SELECT department, AVG(salary) as avg_salary
+FROM Employees
+GROUP BY department
+HAVING AVG(salary) > 60000;
+
+5. JOIN Operations
+Inner Join:
+
+sql
+SELECT e.name, p.project_name
+FROM Employees e
+INNER JOIN Projects p ON e.emp_id = p.emp_id;
+Left Join:
+
+sql
+SELECT e.name, p.project_name
+FROM Employees e
+LEFT JOIN Projects p ON e.emp_id = p.emp_id;
+
+Multiple Table Join:
+
+sql
+SELECT e.name, p.project_name, p.deadline
+FROM Employees e
+JOIN Projects p ON e.emp_id = p.emp_id
+WHERE p.deadline > '2024-01-01';
+
+6. Subqueries
+Subquery in WHERE:
+
+sql
+SELECT name, salary
+FROM Employees
+WHERE salary > (SELECT AVG(salary) FROM Employees);
+Subquery in SELECT:
+
+sql
+SELECT name, salary,
+    (SELECT AVG(salary) FROM Employees) as company_avg
+FROM Employees;
+
+7. Data Modification
+Insert data:
+
+sql
+INSERT INTO Employees (emp_id, name, department, salary)
+VALUES (101, 'John Doe', 'IT', 75000);
+Update data:
+
+sql
+UPDATE Employees 
+SET salary = salary * 1.10
+WHERE department = 'IT';
+
+Delete data:
+
+sql
+DELETE FROM Employees 
+WHERE emp_id = 101;
+
+8. Advanced Queries
+Top N records:
+
+sql
+SELECT name, salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 5;  -- MySQL, PostgreSQL
+-- OR: SELECT TOP 5 ... (SQL Server)
+-- OR: WHERE ROWNUM <= 5 (Oracle)
+
+Case statements:
+
+sql
+SELECT name, salary,
+    CASE 
+        WHEN salary > 80000 THEN 'High'
+        WHEN salary > 50000 THEN 'Medium'
+        ELSE 'Low'
+    END as salary_grade
+FROM Employees;
+Date functions:
+
+sql
+SELECT name, hire_date,
+    DATEDIFF(CURDATE(), hire_date) as days_employed
+FROM Employees;
+
+
