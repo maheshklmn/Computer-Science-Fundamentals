@@ -1,0 +1,52 @@
+/*
+Layered Architecture:
+User Applications (Top Layer)
+
+System Libraries & APIs
+
+Operating System Kernel (Core)
+
+Hardware (Bottom Layer)
+
+Kernel
+The kernel is the core component of an operating system that has complete control over everything in the system. It operates in privileged mode and provides essential services:
+
+Process Management: Creates, schedules, and terminates processes
+
+Memory Management: Handles RAM allocation and virtual memory
+
+Device Management: Controls hardware access through drivers
+
+System Calls: Provides interface for applications to request OS services
+
+Types:
+
+Monolithic Kernel: All OS services in kernel space (Linux)
+
+Microkernel: Minimal services in kernel, rest in user space (more stable)
+
+I/O System
+The Input/Output system manages communication between computer and external devices:
+
+Device Drivers: Software that enables OS to communicate with hardware
+
+I/O Scheduling: Optimizes order of I/O requests for efficiency
+
+Buffering: Temporary storage to handle speed differences between devices and CPU
+
+Caching: Stores frequently accessed data for faster retrieval
+
+How They Work Together
+When an application needs to read a file:
+
+Application makes system call to kernel
+
+Kernel uses I/O subsystem and device drivers
+
+Data flows through buffers/caches
+
+Result returns to application
+
+The kernel and I/O system work together to provide efficient, secure hardware access while abstracting complexity from applications.
+
+*/
