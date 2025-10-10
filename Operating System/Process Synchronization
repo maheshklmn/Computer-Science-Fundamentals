@@ -1,0 +1,140 @@
+
+/*
+
+Process synchronization coordinates the execution of multiple processes that share resources to maintain data consistency and prevent race conditions.
+
+Key Problem: When multiple processes access and manipulate shared data concurrently, the final result depends on the order of execution.
+
+Critical Section Problem
+The critical section is a code segment that accesses shared variables. Solutions must provide:
+
+Mutual Exclusion: Only one process in critical section
+
+Progress: If no process is in CS, a waiting process can enter
+
+Bounded Waiting: No process waits forever to enter CS
+*/
+
+/*
+1. Semaphores
+What: Integer variable with atomic operations wait() and signal()
+
+Types:
+
+Binary Semaphore (0 or 1) - for mutual exclusion
+
+Counting Semaphore (any integer) - for resource counting
+*/
+
+Semaphore mutex = new Semaphore(1); // Binary semaphore
+
+// Process 1
+mutex.wait();   // Enter critical section
+// Access shared resource
+mutex.signal(); // Exit critical section
+
+// Process 2  
+mutex.wait();
+// Access shared resource
+mutex.signal();
+
+/*
+2. Monitors
+What: High-level synchronization construct
+
+Features: Mutual exclusion built-in, condition variables for signaling
+
+Usage: Easier and safer than semaphores
+
+
+*/
+
+/*
+1. Producer-Consumer Problem
+Scenario: Producer produces data, Consumer consumes it
+
+Problem: They share a fixed-size buffer
+
+Solution: Use semaphores for empty/full counts
+
+Solution approach:
+
+*/
+
+Semaphore empty = new Semaphore(BUFFER_SIZE);
+Semaphore full = new Semaphore(0);
+Semaphore mutex = new Semaphore(1);
+
+// Producer
+produce(item);
+empty.wait();  // Wait for empty slot
+mutex.wait();
+add_to_buffer(item);
+mutex.signal();
+full.signal(); // Notify consumer
+
+// Consumer
+full.wait();   // Wait for item
+mutex.wait();
+item = remove_from_buffer();
+mutex.signal();
+empty.signal(); // Notify producer
+consume(item);
+
+/*
+2. Readers-Writers Problem
+Scenario: Multiple readers can read simultaneously, but writers need exclusive access
+
+Variations:
+
+First Readers-Writers: Readers have priority
+
+Second Readers-Writers: Writers have priority
+
+Solution approach:
+
+
+*/
+
+Semaphore rw_mutex = new Semaphore(1);  // For writers
+Semaphore mutex = new Semaphore(1);     // For read_count
+int read_count = 0;
+
+// Writer
+rw_mutex.wait();
+// Write data
+rw_mutex.signal();
+
+// Reader
+mutex.wait();
+read_count++;
+if (read_count == 1) rw_mutex.wait();
+mutex.signal();
+// Read data
+mutex.wait();
+read_count--;
+if (read_count == 0) rw_mutex.signal();
+mutex.signal();
+
+/*
+Interprocess Communication (IC)
+Methods for processes to communicate and synchronize:
+
+1. Shared Memory
+Processes share memory region
+
+Fast but requires synchronization
+
+Used in: Producer-Consumer, shared data structures
+
+2. Message Passing
+Processes communicate by exchanging messages
+
+Slower but no synchronization issues
+
+Used in: Client-server systems, distributed systems
+
+
+
+
+*/
