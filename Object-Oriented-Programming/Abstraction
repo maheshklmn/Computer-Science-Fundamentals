@@ -57,3 +57,4 @@ public class Main {
         myDog.sleep(); // Prints "Buddy is sleeping."
     }
 }
+
