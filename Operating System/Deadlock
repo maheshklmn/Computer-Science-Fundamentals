@@ -1,0 +1,80 @@
+/*
+A deadlock occurs when two or more processes are waiting for each other indefinitely, unable to proceed because each is holding a resource that another process needs.
+
+In simple terms: Like two cars at a 4-way stop, each waiting for the other to go first - resulting in a permanent standstill.
+
+Necessary Conditions for Deadlock
+All four conditions must occur simultaneously for deadlock to happen:
+
+1. Mutual Exclusion
+Only one process can use a resource at a time
+
+Example: A printer can only print one document at a time
+
+2. Hold and Wait
+Processes holding resources can request additional resources
+
+Example: Process A holds Printer and requests Scanner
+
+3. No Preemption
+Resources cannot be forcibly taken from processes
+
+Resources released only voluntarily by the process
+
+4. Circular Wait
+There exists a circular chain of processes where each process waits for a resource held by the next
+
+Example: P1 waits for R2 (held by P2), P2 waits for R1 (held by P1)
+
+Deadlock Handling Strategies
+1. Deadlock Prevention
+Approach: Ensure at least one necessary condition cannot hold
+
+Methods:
+
+Eliminate Hold & Wait: Process requests all resources at start
+
+Eliminate Circular Wait: Impose ordering on resource requests
+
+Allow Preemption: Take resources back from processes
+
+2. Deadlock Avoidance
+Approach: System makes decisions to avoid unsafe states
+
+Banker's Algorithm:
+
+Processes declare maximum resource needs in advance
+
+System checks if granting request leads to safe state
+
+Only grants request if system remains in safe state
+
+3. Deadlock Detection & Recovery
+Approach: Allow deadlocks to occur, then detect and recover
+
+Detection: Use resource allocation graph to find cycles
+
+Recovery Methods:
+
+Process Termination: Kill one or more processes
+
+Resource Preemption: Take resources from processes
+
+4. Deadlock Ignorance
+Approach: Pretend deadlocks never occur (used by most OS)
+
+Reason: Deadlocks are rare, prevention costs too high
+
+Example: Windows, UNIX systems
+
+Banker's Algorithm (Key Points)
+Requires knowing maximum resource needs in advance
+
+Checks for safe sequence - an order where all processes can finish
+
+Time-consuming but guarantees no deadlocks
+
+Used in specialized systems where deadlocks are critical
+
+
+*/
