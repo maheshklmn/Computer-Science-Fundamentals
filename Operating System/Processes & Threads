@@ -1,0 +1,122 @@
+/*
+Process
+A process is an executing program with its own memory space, resources, and state.
+
+Has: Separate memory space (code, data, heap, stack)
+
+Heavyweight: Expensive to create and manage
+
+Independent: Crash of one process doesn't affect others
+
+Thread
+A thread is a lightweight unit of execution within a process. Multiple threads share the same process resources.
+
+Shares: Memory space (code, data, heap)
+
+Has: Separate stack and registers
+
+Lightweight: Cheap to create and context switch
+
+Thread Types
+1. User-Level Threads
+Managed by: User-level library (not OS)
+
+OS sees: Only the process, not individual threads
+
+Advantages: Fast creation/context switch, portable
+
+Disadvantages: If one thread blocks, entire process blocks
+
+Examples: Java threads, Python threads
+
+2. Kernel-Level Threads
+Managed by: Operating System kernel
+
+OS sees: Individual threads
+
+Advantages: OS can schedule threads separately, one thread blocking doesn't block others
+
+Disadvantages: Slower creation/context switch, less portable
+
+Examples: Windows threads, Linux threads
+
+3. Hybrid Approach
+Combination of user and kernel threads
+
+Best of both worlds
+
+Example: Solaris threads
+
+Multi-threading
+What is Multi-threading?
+Running multiple threads concurrently within the same process to improve performance and responsiveness.
+
+Benefits:
+Responsiveness: UI remains responsive while background tasks run
+
+Resource Sharing: Threads share memory and resources easily
+
+Economy: Cheaper than process creation
+
+Utilization: Better CPU and resource utilization
+
+
+
+
+*/
+
+// Method 1: Extending Thread class
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Thread is running: " + Thread.currentThread().getName());
+    }
+}
+
+// Method 2: Implementing Runnable interface
+class MyRunnable implements Runnable {
+    public void run() {
+        System.out.println("Runnable thread: " + Thread.currentThread().getName());
+    }
+}
+
+public class ThreadExample {
+    public static void main(String[] args) {
+        // Using Thread class
+        MyThread t1 = new MyThread();
+        t1.start();
+        
+        // Using Runnable interface
+        Thread t2 = new Thread(new MyRunnable());
+        t2.start();
+        
+        // Using Lambda (Java 8+)
+        Thread t3 = new Thread(() -> {
+            System.out.println("Lambda thread: " + Thread.currentThread().getName());
+        });
+        t3.start();
+    }
+}
+
+/*
+Multi-threading Models
+1. Many-to-One
+Many user threads mapped to one kernel thread
+
+Disadvantage: No true parallelism
+
+2. One-to-One
+Each user thread maps to one kernel thread
+
+Advantage: True parallelism
+
+Example: Windows, Linux
+
+3. Many-to-Many
+Many user threads mapped to many kernel threads
+
+Advantage: Best flexibility and performance
+
+Example: Solaris
+
+
+*/
