@@ -1,0 +1,90 @@
+/*
+What is Memory Management?
+Memory management is the process of controlling and coordinating computer memory, allocating portions to programs, and managing swaps between main memory and disk.
+
+What is Paging?
+Paging is a memory management scheme that eliminates the need for contiguous allocation of physical memory. It divides memory into fixed-sized blocks called pages.
+
+Key Concepts:
+Page: Fixed-size block in virtual memory
+
+Frame: Fixed-size block in physical memory (same size as page)
+
+Page Table: Mapping between virtual pages and physical frames
+
+Page Size: Typically 4KB in modern systems
+
+How Paging Works:
+Process memory divided into equal-sized pages
+
+Physical memory divided into same-sized frames
+
+Page table translates virtual addresses to physical addresses
+
+Operating system manages page tables
+
+Advantages:
+No external fragmentation
+
+Efficient memory utilization
+
+Simple allocation and deallocation
+
+Disadvantages:
+Internal fragmentation (unused space in last page)
+
+Overhead of page tables
+
+Memory reference takes longer (two accesses)
+
+What is Virtual Memory?
+Virtual memory is a technique that allows execution of processes that may not be completely in main memory. It gives programs the illusion of having contiguous memory space larger than physical RAM.
+
+How Virtual Memory Works:
+Uses demand paging - pages loaded only when needed
+
+Combines RAM and disk storage to create "virtual" address space
+
+When a page is needed but not in RAM (page fault), it's loaded from disk
+
+Least Recently Used (LRU) or other algorithms decide which page to replace
+
+Page Replacement Algorithms
+1. FIFO (First-In, First-Out)
+Replace the oldest page
+
+Simple but poor performance
+
+2. LRU (Least Recently Used)
+Replace the page not used for longest time
+
+Good performance but expensive to implement
+
+3. Optimal (OPT)
+Replace page that won't be used for longest time
+
+Theoretical best, but not practical (requires future knowledge)
+
+JVM Memory Structure:
+Heap: Object storage (managed by Garbage Collector)
+
+Stack: Method calls and local variables
+
+Method Area: Class structures, constants
+
+PC Registers: Thread execution points
+
+*/
+
+public class MemoryDemo {
+    public static void main(String[] args) {
+        // JVM handles memory management automatically
+        // Garbage Collector reclaims unused memory
+        
+        // Large array allocation - may use virtual memory
+        int[] largeArray = new int[1000000]; // ~4MB
+        
+        // When method ends, memory becomes eligible for GC
+        // JVM manages paging and virtual memory internally
+    }
+}
