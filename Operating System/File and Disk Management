@@ -1,0 +1,102 @@
+/*
+File Management
+File management involves how the operating system stores, organizes, and manages files on storage devices.
+
+File Allocation Methods
+1. Contiguous Allocation
+Files stored in consecutive blocks on disk
+
+Advantages: Fast sequential access, simple to implement
+
+Disadvantages: External fragmentation, file size must be known in advance
+
+Example: Like parking cars bumper-to-bumper
+
+2. Linked Allocation
+
+Each file block contains pointer to next block
+
+Advantages: No external fragmentation, files can grow easily
+
+Disadvantages: Slow random access, overhead of pointers
+
+Example: Like a treasure hunt with clues pointing to next location
+
+3. Indexed Allocation
+All pointers stored in separate index block
+
+Advantages: Fast random access, no external fragmentation
+
+Disadvantages: Index block overhead, limited file size
+
+Example: Like a book index pointing to all pages
+
+Disk Scheduling Algorithms
+These determine the order in which disk I/O requests are serviced.
+
+1. FCFS (First-Come, First-Served)
+Requests served in order of arrival
+
+Advantage: Fair and simple
+
+Disadvantage: Poor performance, excessive head movement
+
+Use Case: Simple systems with light load
+
+2. SSTF (Shortest Seek Time First)
+Services request closest to current head position
+
+Advantage: Better performance than FCFS
+
+Disadvantage: Starvation of distant requests
+
+Use Case: Where performance is priority over fairness
+
+3. SCAN (Elevator Algorithm)
+Head moves from one end to other, servicing requests along the way
+
+Advantage: No starvation, better performance
+
+Disadvantage: Longer wait for edges
+
+4. C-SCAN (Circular SCAN)
+Head moves in one direction only, returns to start after reaching end
+
+Advantage: More uniform wait time
+
+Disadvantage: Wasted movement on return
+
+5. LOOK & C-LOOK
+Version of SCAN that only goes as far as last request
+
+Advantage: More efficient than SCAN
+
+
+
+
+*/
+
+
+import java.io.*;
+import java.nio.file.*;
+
+public class FileManagementExample {
+    public static void main(String[] args) {
+        try {
+            // Create and write to file
+            Path filePath = Paths.get("example.txt");
+            Files.write(filePath, "Hello, File System!".getBytes());
+            
+            // Read from file
+            byte[] content = Files.readAllBytes(filePath);
+            System.out.println("File content: " + new String(content));
+            
+            // Get file information
+            System.out.println("File size: " + Files.size(filePath) + " bytes");
+            System.out.println("Is regular file: " + Files.isRegularFile(filePath));
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
