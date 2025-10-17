@@ -4,7 +4,7 @@ The Network Layer is Layer 3 in the OSI model responsible for logical addressing
 
 Key Purpose: Enables end-to-end delivery of packets across multiple networks.
 
-IPv4 (Internet Protocol Version 4)
+IPv4 (Internet Protocol Version 4) 
 Address Size: 32-bit (4.3 billion addresses)
 
 Format: Dotted-decimal notation (192.168.1.1)
