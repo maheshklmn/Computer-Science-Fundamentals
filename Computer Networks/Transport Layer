@@ -1,0 +1,228 @@
+/*
+The Transport Layer is Layer 4 in the OSI model responsible for end-to-end communication, error recovery, flow control, and ensuring complete data transfer between applications.
+
+Key Purpose: Provides reliable or unreliable data delivery services to application layer.
+
+TCP (Transmission Control Protocol)
+Characteristics:
+
+Connection-oriented: Requires establishment before data transfer
+
+Reliable: Guarantees delivery, no data loss or duplication
+
+Ordered: Data arrives in sent order
+
+Flow control: Prevents overwhelming the receiver
+
+Congestion control: Adjusts sending rate based on network conditions
+
+TCP Header Fields:
+
+Source/Destination Port
+
+Sequence Number
+
+Acknowledgment Number
+
+Window Size
+
+Flags (SYN, ACK, FIN, RST)
+
+TCP 3-Way Handshake:
+
+SYN: Client sends synchronization request
+
+SYN-ACK: Server acknowledges and synchronizes
+
+ACK: Client acknowledges, connection established
+
+Use Cases: Web browsing (HTTP), email (SMTP), file transfer (FTP)
+
+UDP (User Datagram Protocol)
+Characteristics:
+
+Connectionless: No establishment required
+
+Unreliable: No delivery guarantees
+
+No ordering: Packets may arrive out of order
+
+No flow control: Can overwhelm receiver
+
+Faster: Lower overhead than TCP
+
+UDP Header Fields:
+
+Source/Destination Port
+
+Length
+
+Checksum
+
+Use Cases: DNS, VoIP, video streaming, online games
+
+What is Congestion?
+Congestion occurs when network resources are overwhelmed by too much data, causing packet loss and degraded performance.
+
+TCP Congestion Control Algorithms
+1. Slow Start
+Purpose: Gradually find available bandwidth
+
+Mechanism: Congestion Window (cwnd) doubles every RTT
+
+Phase: Exponential growth until threshold or loss
+
+2. Congestion Avoidance
+Purpose: Conservative growth after slow start
+
+Mechanism: cwnd increases by 1 MSS per RTT
+
+Phase: Additive increase
+
+3. Fast Retransmit
+Trigger: 3 duplicate ACKs received
+
+Action: Retransmit lost packet without waiting for timeout
+
+4. Fast Recovery
+After fast retransmit: Reduce cwnd by half
+
+Continue in congestion avoidance phase
+
+AIMD (Additive Increase Multiplicative Decrease)
+Increase: cwnd += 1 MSS per RTT (additive)
+
+Decrease: cwnd = cwnd / 2 on packet loss (multiplicative)
+
+
+
+*/
+
+// TCP Server
+import java.net.*;
+import java.io.*;
+
+public class TCPServer {
+    public static void main(String[] args) {
+        try (ServerSocket serverSocket = new ServerSocket(8080)) {
+            System.out.println("TCP Server started on port 8080");
+            
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("Client connected: " + clientSocket.getInetAddress());
+                
+                // Handle client in separate thread
+                new Thread(() -> handleClient(clientSocket)).start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static void handleClient(Socket clientSocket) {
+        try (BufferedReader in = new BufferedReader(
+                new InputStreamReader(clientSocket.getInputStream()));
+             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+            
+            String message;
+            while ((message = in.readLine()) != null) {
+                System.out.println("Received: " + message);
+                out.println("Echo: " + message); // Echo back to client
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// TCP Client
+
+import java.net.*;
+import java.io.*;
+
+public class TCPClient {
+    public static void main(String[] args) {
+        try (Socket socket = new Socket("localhost", 8080);
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(
+                 new InputStreamReader(socket.getInputStream()));
+             BufferedReader stdIn = new BufferedReader(
+                 new InputStreamReader(System.in))) {
+            
+            String userInput;
+            while ((userInput = stdIn.readLine()) != null) {
+                out.println(userInput); // Send to server
+                System.out.println("Server response: " + in.readLine()); // Read response
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// UDP server 
+
+import java.net.*;
+
+public class UDPServer {
+    public static void main(String[] args) {
+        try (DatagramSocket socket = new DatagramSocket(8080)) {
+            System.out.println("UDP Server started on port 8080");
+            byte[] buffer = new byte[1024];
+            
+            while (true) {
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+                socket.receive(packet); // Receive packet
+                
+                String message = new String(packet.getData(), 0, packet.getLength());
+                System.out.println("Received: " + message);
+                
+                // Echo back to client
+                InetAddress clientAddress = packet.getAddress();
+                int clientPort = packet.getPort();
+                byte[] response = ("Echo: " + message).getBytes();
+                DatagramPacket responsePacket = new DatagramPacket(
+                    response, response.length, clientAddress, clientPort);
+                socket.send(responsePacket);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// UDP client 
+
+import java.net.*;
+import java.util.Scanner;
+
+public class UDPClient {
+    public static void main(String[] args) {
+        try (DatagramSocket socket = new DatagramSocket();
+             Scanner scanner = new Scanner(System.in)) {
+            
+            InetAddress serverAddress = InetAddress.getByName("localhost");
+            byte[] buffer = new byte[1024];
+            
+            System.out.println("Enter messages to send (type 'exit' to quit):");
+            while (true) {
+                String message = scanner.nextLine();
+                if ("exit".equalsIgnoreCase(message)) break;
+                
+                // Send message
+                byte[] sendData = message.getBytes();
+                DatagramPacket sendPacket = new DatagramPacket(
+                    sendData, sendData.length, serverAddress, 8080);
+                socket.send(sendPacket);
+                
+                // Receive response
+                DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
+                socket.receive(receivePacket);
+                String response = new String(receivePacket.getData(), 0, receivePacket.getLength());
+                System.out.println("Server response: " + response);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
