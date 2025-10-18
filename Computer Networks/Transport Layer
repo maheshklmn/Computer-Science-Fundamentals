@@ -95,7 +95,6 @@ Increase: cwnd += 1 MSS per RTT (additive)
 Decrease: cwnd = cwnd / 2 on packet loss (multiplicative)
 
 
-
 */
 
 // TCP Server
