@@ -1,0 +1,188 @@
+/*
+
+What is the Data Link Layer?
+The Data Link Layer is Layer 2 in the OSI model responsible for node-to-node data transfer between directly connected devices on the same network. It handles framing, physical addressing, error detection, and flow control.
+
+Key Purpose: Provides reliable data transfer across the physical network medium.
+
+What is Ethernet?
+Ethernet is the most common LAN technology that operates at the Data Link Layer. It defines wiring, signaling, and frame structure for local area networks.
+
+Ethernet Frame Structure:
+text
+[Preamble 8B] [Destination MAC 6B] [Source MAC 6B] [Type/Length 2B] [Data 46-1500B] [FCS 4B]
+Frame Fields:
+
+Preamble: Synchronization and start frame delimiter
+
+MAC Addresses: Source and destination hardware addresses
+
+Type/Length: Identifies upper layer protocol or frame length
+
+Data: Payload (46-1500 bytes)
+
+FCS: Frame Check Sequence for error detection
+
+MAC Address (Media Access Control)
+48-bit hardware address (e.g., 00:1A:2B:3C:4D:5E)
+
+First 24 bits: Manufacturer ID (OUI)
+
+Last 24 bits: Device-specific
+
+Unique worldwide for each network interface
+
+CSMA/CD (Carrier Sense Multiple Access with Collision Detection)
+Used in: Traditional Ethernet (half-duplex)
+
+Process:
+
+Carrier Sense: Check if medium is free
+
+Multiple Access: Multiple devices can transmit
+
+Collision Detection: Detect and handle collisions
+
+Modern Ethernet: Full-duplex with switches (no collisions)
+
+Error Control Policies
+Purpose: Detect and correct errors in data transmission
+1. Parity Check
+Simple error detection
+
+Even/Odd parity: Add extra bit to make total 1s even/odd
+
+Limitation: Detects only single-bit errors
+
+2. Checksum
+Sender: Calculate sum of data bits, send complement
+
+Receiver: Recalculate sum, check against received checksum
+
+Used in: TCP, UDP, IP headers
+
+3. CRC (Cyclic Redundancy Check)
+Most reliable error detection
+
+Uses polynomial division to generate check bits
+
+Used in: Ethernet frames (FCS field)
+
+Can detect: Burst errors up to 32 bits
+
+Flow Control Policies
+Purpose: Prevent fast sender from overwhelming slow receiver
+1. Stop-and-Wait ARQ
+Simple flow control
+
+Process: Send one frame → Wait for ACK → Send next frame
+
+Advantage: Simple to implement
+
+Disadvantage: Poor utilization (half-duplex)
+
+2. Sliding Window Protocol
+Efficient flow control
+
+Window Size: Number of frames that can be sent without ACK
+
+
+
+Types:
+
+Go-Back-N: Resend all frames from lost frame
+
+Selective Repeat: Resend only lost frames
+
+Sliding Window Example:
+text
+Sender Window: [1][2][3][4][5]  (Window Size = 5)
+Send frames 1-5 → Receive ACK for 1 → Window slides → [2][3][4][5][6]
+
+
+
+
+*/
+
+// Java Network Interface Example
+
+import java.net.*;
+import java.util.Enumeration;
+
+public class DataLinkLayerDemo {
+    public static void main(String[] args) {
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface ni = interfaces.nextElement();
+                System.out.println("Interface: " + ni.getDisplayName());
+                System.out.println("Name: " + ni.getName());
+                
+                byte[] mac = ni.getHardwareAddress();
+                if (mac != null) {
+                    System.out.print("MAC Address: ");
+                    for (int i = 0; i < mac.length; i++) {
+                        System.out.format("%02X%s", mac[i], (i < mac.length - 1) ? ":" : "");
+                    }
+                    System.out.println();
+                }
+                
+                System.out.println("MTU: " + ni.getMTU());
+                System.out.println("Is Up: " + ni.isUp());
+                System.out.println("Is Loopback: " + ni.isLoopback());
+                System.out.println("----------");
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// Error Detection Implementation Example
+
+public class ErrorDetection {
+    
+    // Simple Checksum implementation
+    public static short calculateChecksum(byte[] data) {
+        int sum = 0;
+        for (byte b : data) {
+            sum += (b & 0xFF);  // Convert to unsigned
+        }
+        // Wrap around carry and take complement
+        while (sum >>> 16 != 0) {
+            sum = (sum & 0xFFFF) + (sum >>> 16);
+        }
+        return (short) ~sum;
+    }
+    
+    // Verify checksum
+    public static boolean verifyChecksum(byte[] data, short checksum) {
+        int sum = 0;
+        for (byte b : data) {
+            sum += (b & 0xFF);
+        }
+        sum += (checksum & 0xFFFF);  // Add the checksum
+        
+        while (sum >>> 16 != 0) {
+            sum = (sum & 0xFFFF) + (sum >>> 16);
+        }
+        return sum == 0xFFFF;
+    }
+    
+    public static void main(String[] args) {
+        String message = "Hello Data Link Layer!";
+        byte[] data = message.getBytes();
+        
+        short checksum = calculateChecksum(data);
+        System.out.println("Checksum: " + Integer.toHexString(checksum & 0xFFFF));
+        
+        boolean isValid = verifyChecksum(data, checksum);
+        System.out.println("Data integrity: " + isValid);
+        
+        // Simulate data corruption
+        data[0] = (byte) (data[0] + 1);  // Corrupt first byte
+        boolean isStillValid = verifyChecksum(data, checksum);
+        System.out.println("After corruption: " + isStillValid);
+    }
+}
