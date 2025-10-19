@@ -1,0 +1,63 @@
+## 🧩 Session Layer (Layer 5 of the OSI Model)
+
+### 📘 Overview
+The **Session Layer** is the **fifth layer** of the **OSI (Open Systems Interconnection)** model.  
+It acts as a bridge between the **Transport Layer (Layer 4)** and the **Presentation Layer (Layer 6)**.  
+Its main purpose is to **establish, manage, and terminate sessions** between two communicating systems or applications.
+
+---
+
+### ⚙️ Key Functions
+
+1. **Session Establishment, Maintenance, and Termination**  
+   - Starts, maintains, and ends communication sessions between two hosts.  
+   - Ensures that both systems are synchronized for reliable data exchange.
+
+2. **Dialog Control**  
+   - Determines which side can transmit data at a given time (half-duplex or full-duplex communication).  
+
+3. **Synchronization**  
+   - Adds checkpoints (synchronization points) during data transmission so that if a failure occurs, communication can resume from the last checkpoint instead of restarting completely.
+
+4. **Session Recovery**  
+   - Recovers data lost during transmission and resumes disrupted sessions without retransmitting everything.
+
+---
+
+### 🧠 Examples
+
+- **RPC (Remote Procedure Call)**  
+- **NetBIOS (Network Basic Input/Output System)**  
+- **PPTP (Point-to-Point Tunneling Protocol)**  
+
+---
+
+### 🖥️ Real-World Analogy
+Imagine the Session Layer as a **moderator in a video conference**:
+- 🎬 Starts the call (session establishment)  
+- 🗣️ Ensures participants take turns speaking (dialog control)  
+- 🔚 Ends the meeting properly (session termination)
+
+---
+
+### 🧩 Layer Relationship
+
+| OSI Layer | Layer Number | Main Role |
+|------------|---------------|-----------|
+| 🪶 Presentation | 6 | Data translation, encryption, compression |
+| 🧩 **Session** | **5** | **Session management and control** |
+| 🚚 Transport | 4 | Reliable data delivery (TCP/UDP) |
+
+---
+
+### 📚 Summary
+
+- **Layer Number:** 5  
+- **Main Function:** Manages communication sessions between applications  
+- **Keywords:** Synchronization, Dialog Control, Session Recovery  
+- **Examples:** RPC, NetBIOS, PPTP  
+
+---
+
+⭐ **In short:**  
+> The Session Layer keeps communication sessions organized, synchronized, and reliable between networked applications.
