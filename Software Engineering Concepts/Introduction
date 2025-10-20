@@ -1,0 +1,206 @@
+/*
+What is Software Engineering?
+Software Engineering is the systematic application of engineering principles to the design, development, implementation, testing, and maintenance of software.
+
+Key Difference from Programming:
+
+Programming: Writing code to solve specific problems
+
+Software Engineering: Comprehensive process including requirements, design, testing, maintenance, and project management
+
+TYPES
+
+1. System Software
+Software that provides a platform for running application software and manages computer hardware.
+
+Examples:
+
+Operating Systems: Windows, Linux, macOS, Android
+
+Device Drivers: Printer drivers, graphics card drivers
+
+Utilities: Disk cleanup, antivirus, file compression tools
+
+Firmware: BIOS, embedded system software
+
+Characteristics:
+
+Low-level interaction with hardware
+
+High performance requirements
+
+Usually written in C/C++, Assembly
+
+Users don't directly interact with most system software
+
+2. Application Software
+Software designed to help users perform specific tasks or solve particular problems.
+
+Examples:
+
+Productivity: Microsoft Office, Google Docs
+
+Web Browsers: Chrome, Firefox, Safari
+
+Media Players: VLC, Windows Media Player
+
+Games: Minecraft, Fortnite
+
+Mobile Apps: WhatsApp, Instagram, Uber
+
+Characteristics:
+
+User-facing with graphical interfaces
+
+Solves specific user needs
+
+Written in high-level languages (Java, Python, JavaScript)
+
+Requires underlying system software to run
+
+3. Embedded Software
+Software embedded in hardware devices to control specific functions.
+
+Examples:
+
+Automotive: Engine control units, infotainment systems
+
+Medical Devices: Pacemakers, MRI machines
+
+Home Appliances: Smart thermostats, washing machines
+
+IoT Devices: Smart home devices, wearables
+
+Characteristics:
+
+Resource-constrained environments
+
+Real-time operation requirements
+
+High reliability and safety critical
+
+Often written in C, C++, Rust
+
+4. Enterprise Software
+Large-scale software systems that serve the needs of organizations rather than individual users.
+
+Examples:
+
+ERP Systems: SAP, Oracle ERP
+
+CRM Systems: Salesforce, HubSpot
+
+Supply Chain Management
+
+Human Resource Management Systems
+
+Characteristics:
+
+Scalable to handle large user bases
+
+Integration with multiple systems
+
+High availability requirements
+
+Complex business logic
+
+5. Scientific Software
+Software used for scientific research, simulations, and data analysis.
+
+Examples:
+
+Simulation Software: MATLAB, ANSYS
+
+Data Analysis: R, Python with scientific libraries
+
+Bioinformatics Tools
+
+Astronomy Software
+
+Characteristics:
+
+High computational requirements
+
+Precision and accuracy critical
+
+Specialized algorithms
+
+Often research-oriented
+
+*/
+
+
+// Simple Memory Manager (System Software concept)
+public class MemoryManager {
+    private Map<Process, MemoryBlock> allocatedMemory;
+    
+    public MemoryBlock allocateMemory(Process process, int size) {
+        // Find suitable free memory block
+        MemoryBlock block = findFreeBlock(size);
+        if (block != null) {
+            allocatedMemory.put(process, block);
+            markBlockAsUsed(block);
+        }
+        return block;
+    }
+    
+    public void deallocateMemory(Process process) {
+        MemoryBlock block = allocatedMemory.remove(process);
+        if (block != null) {
+            markBlockAsFree(block);
+        }
+    }
+}
+
+
+
+// Simple Calculator Application
+public class Calculator {
+    public double add(double a, double b) {
+        return a + b;
+    }
+    
+    public double subtract(double a, double b) {
+        return a - b;
+    }
+    
+    public double multiply(double a, double b) {
+        return a * b;
+    }
+    
+    public double divide(double a, double b) {
+        if (b == 0) throw new ArithmeticException("Division by zero");
+        return a / b;
+    }
+    
+    // Main method for standalone application
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        System.out.println("5 + 3 = " + calc.add(5, 3));
+        System.out.println("10 / 2 = " + calc.divide(10, 2));
+    }
+}
+
+
+// REST Controller for Web Application
+@RestController
+public class UserController {
+    
+    @Autowired
+    private UserService userService;
+    
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        User user = userService.findById(id);
+        return ResponseEntity.ok(user);
+    }
+    
+    @PostMapping("/users")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User savedUser = userService.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+    }
+}
+
+
+
