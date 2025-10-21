@@ -1,0 +1,311 @@
+/*
+
+The Software Development Life Cycle (SDLC) is a structured process for building software that ensures quality, efficiency, and meets customer requirements. It provides a framework for planning, creating, testing, and deploying software.
+
+Major SDLC Models
+1. Waterfall Model
+Approach: Linear sequential flow where each phase must be completed before the next begins.
+
+Phases:
+
+Requirements Gathering
+
+System Design
+
+Implementation
+
+Testing
+
+Deployment
+
+Maintenance
+
+Characteristics:
+
+Rigid structure with clear milestones
+
+Documentation-heavy
+
+No going back to previous phases easily
+
+Simple and easy to understand
+
+When to use:
+
+Requirements are well-understood and fixed
+
+Short-duration projects
+
+Technologies are well-established
+
+Example Project: Payroll system for a small company
+
+2. Agile Model
+Approach: Iterative and incremental development with focus on customer collaboration and rapid delivery.
+
+Key Principles:
+
+Working software over comprehensive documentation
+
+Customer collaboration over contract negotiation
+
+Responding to change over following a plan
+
+Methodologies:
+
+Scrum: Sprints, daily stand-ups, product backlog
+
+Kanban: Visual workflow, work-in-progress limits
+
+XP (Extreme Programming): Pair programming, test-driven development
+
+Characteristics:
+
+Flexible and adaptive
+
+Frequent deliveries (2-4 week cycles)
+
+Continuous customer feedback
+
+Cross-functional teams
+
+When to use:
+
+Requirements change frequently
+
+Complex projects with uncertain outcomes
+
+Customer wants early and continuous delivery
+
+Example Project: Mobile app development, startup products
+
+3. Iterative Model
+Approach: Develop software through repeated cycles (iterations) in smaller portions at a time.
+
+Process:
+
+Initial Planning
+
+Design & Implementation of one iteration
+
+Review & Evaluation
+
+Repeat with next iteration
+
+Characteristics:
+
+Early working versions available
+
+Easier to manage risk
+
+Customer can provide early feedback
+
+Progress can be measured
+
+When to use:
+
+Large projects where major requirements are defined
+
+New technology being learned
+
+Need to demonstrate progress early
+
+Example Project: Enterprise resource planning system
+
+4. Spiral Model
+Approach: Combines iterative development with systematic risk analysis.
+
+Four Quadrants per Cycle:
+
+Objective Setting
+
+Risk Analysis & Resolution
+
+Development & Validation
+
+Planning for Next Iteration
+
+Characteristics:
+
+Strong risk management
+
+Good for large, complex projects
+
+Costly and time-consuming
+
+Requires risk assessment expertise
+
+When to use:
+
+High-risk projects
+
+Large and complex systems
+
+Significant changes expected during development
+
+Example Project: Air traffic control system, medical software
+
+5. V-Model (Verification & Validation)
+Approach: Extension of Waterfall with testing at each development stage.
+
+Corresponding Testing Phases:
+
+Requirements → Acceptance Testing
+
+System Design → System Testing
+
+Architectural Design → Integration Testing
+
+Module Design → Unit Testing
+
+Characteristics:
+
+High discipline
+
+Testing planned in parallel
+
+Good for critical systems
+
+Less flexible to changes
+
+When to use:
+
+Safety-critical systems
+
+Medical, aerospace, defense projects
+
+Where reliability is paramount
+
+Example Project: Flight control software, medical device software
+
+SDLC Phases (Common to Most Models)
+1. Requirement Analysis
+Gather and document what the software should do
+
+Understand user needs and constraints
+
+Create Software Requirements Specification (SRS)
+
+2. Design
+Create architecture and detailed design
+
+Define system components, interfaces, data models
+
+Create Design Document Specification (DDS)
+
+3. Implementation (Coding)
+Write actual code based on design
+
+Follow coding standards and best practices
+
+Conduct code reviews
+
+4. Testing
+Verify software meets requirements
+
+Find and fix defects
+
+Types: Unit, Integration, System, Acceptance testing
+
+5. Deployment
+Install software in production environment
+
+User training and data migration
+
+Go-live activities
+
+6. Maintenance
+Fix issues found in production
+
+Enhance features
+
+Performance optimization
+
+Java Project Example Showing Different Models
+Waterfall Approach (Structured):
+java
+// Requirements: Simple Calculator
+// Design: Basic arithmetic operations
+// Implementation:
+public class WaterfallCalculator {
+    // Well-defined, fixed requirements
+    public double add(double a, double b) { return a + b; }
+    public double subtract(double a, double b) { return a - b; }
+    public double multiply(double a, double b) { return a * b; }
+    public double divide(double a, double b) { 
+        if (b == 0) throw new ArithmeticException();
+        return a / b; 
+    }
+}
+Agile Approach (Iterative):
+java
+// Sprint 1: Basic calculator
+public class AgileCalculator {
+    public double add(double a, double b) { return a + b; }
+}
+
+// Sprint 2: Add more operations
+class EnhancedCalculator extends AgileCalculator {
+    public double multiply(double a, double b) { return a * b; }
+}
+
+// Sprint 3: Add memory function
+class MemoryCalculator extends EnhancedCalculator {
+    private double memory;
+    public void store(double value) { memory = value; }
+    public double recall() { return memory; }
+}
+
+// Continuous integration and testing
+public class CalculatorTest {
+    @Test
+    public void testAddition() {
+        AgileCalculator calc = new AgileCalculator();
+        assertEquals(5.0, calc.add(2.0, 3.0), 0.001);
+    }
+}
+Real-world Agile Project Structure:
+text
+project/
+├── src/
+│   ├── main/java/com/example/
+│   │   ├── User.java                 // Domain object
+│   │   ├── UserService.java          // Business logic
+│   │   └── UserController.java       // REST API
+│   └── test/java/com/example/
+│       └── UserServiceTest.java      // Unit tests
+├── pom.xml                          // Build configuration
+└── README.md                        // Documentation
+Key Interview Points
+When asked "What is SDLC?":
+
+"SDLC is a systematic process for building software that includes planning, design, development, testing, deployment, and maintenance. It ensures software is built efficiently, meets quality standards, and satisfies customer requirements."
+
+For "Waterfall vs Agile":
+
+"Waterfall is sequential and rigid, suitable for projects with fixed requirements. Agile is iterative and flexible, ideal for projects where requirements evolve and rapid delivery is important."
+
+Model Selection Criteria:
+
+Project Size & Complexity
+
+Requirements Clarity & Stability
+
+Risk Level
+
+Customer Involvement
+
+Time to Market
+
+Modern Trends:
+
+DevOps: Combining development and operations
+
+CI/CD: Continuous Integration/Continuous Deployment
+
+Microservices: Breaking applications into small, independent services
+
+
+
+
+*/
