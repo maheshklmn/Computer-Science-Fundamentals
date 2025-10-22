@@ -152,9 +152,7 @@ ACID: Consistency-focused (SQL databases)
 
 BASE: Availability-focused (NoSQL databases)
 
-Java System Design Example
-Microservice Architecture Example:
-User Service:
+*/
 
 java
 // User Service - handles user management
@@ -267,51 +265,5 @@ public class ProductService {
         return product;
     }
 }
-System Design Interview Approach
-Step-by-Step Process:
-Clarify Requirements
 
-Ask about scale, features, constraints
 
-Define use cases and user stories
-
-Estimate Scale
-
-Number of users, requests per second
-
-Storage requirements, bandwidth needs
-
-High-Level Design
-
-Draw architecture diagram
-
-Identify main components and their interactions
-
-Deep Dive
-
-Database schema design
-
-API design
-
-Scaling strategies
-
-Identify Bottlenecks
-
-Single points of failure
-
-Performance issues
-
-Security concerns
-
-Common Interview Questions:
-"Design Twitter"
-
-"Design Uber"
-
-"Design Netflix"
-
-"Design URL Shortener"
-
-"Design Chat System"
-
-*/
