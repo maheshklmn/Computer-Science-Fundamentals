@@ -1,0 +1,383 @@
+/*
+1. Design Twitter/Twitter Feed
+Key Requirements:
+
+Post tweets (280 characters)
+
+Follow/unfollow users
+
+View home timeline (tweets from followed users)
+
+Like/retweet functionality
+
+Scale Estimation:
+
+500 million users
+
+500 million tweets daily
+
+15 billion timeline reads daily
+
+Key Components:
+
+Tweet Service: Handle tweet creation and storage
+
+User Service: Manage user profiles and relationships
+
+Timeline Service: Generate and serve user feeds
+
+Social Graph: Store follower/following relationships
+
+
+*/
+
+// Simplified Tweet Service
+@Service
+public class TweetService {
+    @Autowired
+    private TweetRepository tweetRepository;
+    
+    @Autowired
+    private TimelineService timelineService;
+    
+    public Tweet postTweet(String userId, String content) {
+        Tweet tweet = new Tweet(UUID.randomUUID().toString(), userId, content, Instant.now());
+        tweetRepository.save(tweet);
+        
+        // Fan-out: Push to followers' timelines
+        timelineService.fanOutTweet(tweet);
+        return tweet;
+    }
+}
+
+// Timeline Service with caching
+@Service 
+public class TimelineService {
+    @Autowired
+    private RedisTemplate<String, List<Tweet>> redisTemplate;
+    
+    public List<Tweet> getHomeTimeline(String userId) {
+        // Check cache first
+        List<Tweet> timeline = redisTemplate.opsForValue().get("timeline:" + userId);
+        if (timeline == null) {
+            timeline = generateTimeline(userId);
+            redisTemplate.opsForValue().set("timeline:" + userId, timeline, Duration.ofMinutes(1));
+        }
+        return timeline;
+    }
+    
+    public void fanOutTweet(Tweet tweet) {
+        // Push tweet to all followers' timelines
+        List<String> followers = socialGraphService.getFollowers(tweet.getUserId());
+        for (String followerId : followers) {
+            addToTimeline(followerId, tweet);
+        }
+    }
+}
+
+
+/*
+2. Design URL Shortener (like TinyURL)
+Requirements:
+
+Shorten long URLs
+
+Redirect short URLs to original URLs
+
+Custom short codes (optional)
+
+Analytics (click tracking)
+
+Scale:
+
+100 million URLs shortened daily
+
+1 billion redirects daily
+
+Key Design:
+
+Base62 encoding for short URLs (a-z, A-Z, 0-9)
+
+Distributed ID generation (Snowflake algorithm)
+
+Caching for frequent URLs
+
+Database sharding by short code
+
+
+*/
+
+@Service
+public class URLShortenerService {
+    private static final String BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static final String BASE_URL = "https://short.url/";
+    
+    @Autowired
+    private DistributedIdGenerator idGenerator;
+    
+    @Autowired
+    private URLRepository urlRepository;
+    
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+    
+    public String shortenURL(String longURL) {
+        // Check if already exists
+        String existingShortCode = urlRepository.findShortCodeByLongURL(longURL);
+        if (existingShortCode != null) {
+            return BASE_URL + existingShortCode;
+        }
+        
+        // Generate new short code
+        long id = idGenerator.nextId();
+        String shortCode = base62Encode(id);
+        
+        // Store mapping
+        URLMapping mapping = new URLMapping(shortCode, longURL, Instant.now());
+        urlRepository.save(mapping);
+        
+        return BASE_URL + shortCode;
+    }
+    
+    public String redirect(String shortCode) {
+        // Check cache first
+        String longURL = redisTemplate.opsForValue().get("url:" + shortCode);
+        if (longURL == null) {
+            URLMapping mapping = urlRepository.findByShortCode(shortCode);
+            if (mapping != null) {
+                longURL = mapping.getLongURL();
+                // Cache for 24 hours
+                redisTemplate.opsForValue().set("url:" + shortCode, longURL, Duration.ofHours(24));
+            }
+        }
+        return longURL;
+    }
+    
+    private String base62Encode(long number) {
+        StringBuilder sb = new StringBuilder();
+        while (number > 0) {
+            sb.append(BASE62.charAt((int) (number % 62)));
+            number /= 62;
+        }
+        return sb.reverse().toString();
+    }
+}
+
+
+/*
+
+3. Design Netflix/Video Streaming Service
+Requirements:
+
+Stream videos to millions of users
+
+Video upload and processing
+
+Recommendations
+
+Multiple quality levels
+
+Key Components:
+
+CDN for video delivery
+
+Video Processing Pipeline for encoding
+
+Recommendation Engine
+
+User Watch History
+
+*/
+
+
+@Service
+public class VideoStreamingService {
+    @Autowired
+    private CDNService cdnService;
+    
+    @Autowired
+    private VideoRepository videoRepository;
+    
+    public StreamingResponse streamVideo(String videoId, String quality, String sessionId) {
+        Video video = videoRepository.findById(videoId);
+        
+        // Get appropriate CDN URL based on user location and quality
+        String streamUrl = cdnService.getStreamURL(videoId, quality);
+        
+        // Track watch history
+        trackWatchHistory(sessionId, videoId);
+        
+        return new StreamingResponse(streamUrl, video.getMetadata());
+    }
+    
+    private void trackWatchHistory(String sessionId, String videoId) {
+        // Asynchronously update watch history
+        CompletableFuture.runAsync(() -> {
+            WatchHistory history = new WatchHistory(sessionId, videoId, Instant.now());
+            watchHistoryRepository.save(history);
+        });
+    }
+}
+
+@Service
+public class VideoProcessingService {
+    @Autowired
+    private MessageQueueService messageQueue;
+    
+    public void processUploadedVideo(String videoId, String originalFile) {
+        // Create processing job
+        VideoProcessingJob job = new VideoProcessingJob(videoId, originalFile);
+        
+        // Send to message queue for async processing
+        messageQueue.send("video-processing", job);
+        
+        // Different workers will handle different quality encodings
+    }
+}
+
+/*
+
+4. Design Uber/Ride-Sharing Service
+Requirements:
+
+Match riders with nearby drivers
+
+Real-time location tracking
+
+Pricing and payments
+
+Trip history
+
+Key Challenges:
+
+Real-time location updates
+
+Geospatial queries for nearby drivers
+
+High concurrency during peak hours
+
+*/
+
+@Service
+public class RideMatchingService {
+    @Autowired
+    private LocationService locationService;
+    
+    @Autowired
+    private RedisTemplate<String, DriverLocation> redisTemplate;
+    
+    public List<Driver> findNearbyDrivers(double riderLat, double riderLng, double radius) {
+        // Use Redis GEO commands for nearby drivers
+        List<DriverLocation> nearbyDrivers = locationService.findDriversWithinRadius(
+            riderLat, riderLng, radius);
+            
+        return nearbyDrivers.stream()
+            .map(DriverLocation::getDriver)
+            .collect(Collectors.toList());
+    }
+    
+    public Ride requestRide(String riderId, Location pickup, Location destination) {
+        List<Driver> availableDrivers = findNearbyDrivers(
+            pickup.getLatitude(), pickup.getLongitude(), 5.0); // 5km radius
+            
+        if (!availableDrivers.isEmpty()) {
+            Driver assignedDriver = selectBestDriver(availableDrivers, pickup);
+            Ride ride = new Ride(UUID.randomUUID().toString(), riderId, assignedDriver.getId(), 
+                               pickup, destination, calculatePrice(pickup, destination));
+            rideRepository.save(ride);
+            
+            // Notify driver
+            notificationService.notifyDriver(assignedDriver.getId(), ride);
+            
+            return ride;
+        }
+        throw new NoDriversAvailableException();
+    }
+}
+
+@Service
+public class LocationService {
+    public void updateDriverLocation(String driverId, double lat, double lng) {
+        // Store in Redis GEO index for fast nearby queries
+        redisTemplate.opsForGeo().add("drivers:location", 
+            new Point(lng, lat), driverId);
+        
+        // Also update in database for persistence
+        CompletableFuture.runAsync(() -> {
+            driverLocationRepository.updateLocation(driverId, lat, lng);
+        });
+    }
+}
+
+/*
+5. Design Amazon/E-commerce Platform
+Requirements:
+
+Product catalog and search
+
+Shopping cart
+
+Order processing
+
+Recommendations
+
+Inventory management
+
+
+*/
+
+
+@Service
+public class ProductService {
+    @Autowired
+    private ProductRepository productRepository;
+    
+    @Autowired
+    private SearchService searchService;
+    
+    @Autowired
+    private InventoryService inventoryService;
+    
+    public List<Product> searchProducts(String query, Map<String, String> filters) {
+        return searchService.searchProducts(query, filters);
+    }
+    
+    public Order placeOrder(String userId, List<OrderItem> items) {
+        // Check inventory
+        for (OrderItem item : items) {
+            if (!inventoryService.isAvailable(item.getProductId(), item.getQuantity())) {
+                throw new InsufficientInventoryException(item.getProductId());
+            }
+        }
+        
+        // Reserve inventory
+        inventoryService.reserveItems(items);
+        
+        // Create order
+        Order order = new Order(UUID.randomUUID().toString(), userId, items, OrderStatus.PENDING);
+        orderRepository.save(order);
+        
+        // Process payment asynchronously
+        paymentService.processPayment(order);
+        
+        return order;
+    }
+}
+
+@Service
+public class RecommendationService {
+    @Autowired
+    private UserBehaviorRepository userBehaviorRepository;
+    
+    public List<Product> getRecommendations(String userId) {
+        // Collaborative filtering based on user behavior
+        List<UserBehavior> behaviors = userBehaviorRepository.findByUserId(userId);
+        
+        // Multiple recommendation strategies
+        List<Product> collaborative = collaborativeFiltering(behaviors);
+        List<Product> contentBased = contentBasedFiltering(behaviors);
+        List<Product> trending = getTrendingProducts();
+        
+        return mergeRecommendations(collaborative, contentBased, trending);
+    }
+}
