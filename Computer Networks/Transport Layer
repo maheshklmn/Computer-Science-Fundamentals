@@ -1,103 +1,93 @@
-/*
-The Transport Layer is Layer 4 in the OSI model responsible for end-to-end communication, error recovery, flow control, and ensuring complete data transfer between applications.
+# Transport Layer (Layer 4 of the OSI Model)
 
-Key Purpose: Provides reliable or unreliable data delivery services to application layer.
+## Overview
+The **Transport Layer** is the **fourth layer** of the **OSI (Open Systems Interconnection)** model.  
+It is responsible for **end-to-end communication**, **error recovery**, **flow control**, and **ensuring complete data transfer** between applications.
 
-TCP (Transmission Control Protocol)
-Characteristics:
+### Key Purpose
+Provides **reliable or unreliable data delivery services** to the **application layer**.
 
-Connection-oriented: Requires establishment before data transfer
+---
 
-Reliable: Guarantees delivery, no data loss or duplication
+## Protocols
 
-Ordered: Data arrives in sent order
+### TCP (Transmission Control Protocol)
 
-Flow control: Prevents overwhelming the receiver
+#### Characteristics
+- **Connection-oriented**: Requires connection establishment before data transfer  
+- **Reliable**: Guarantees delivery with no loss or duplication  
+- **Ordered**: Data arrives in the same order it was sent  
+- **Flow Control**: Prevents overwhelming the receiver  
+- **Congestion Control**: Adjusts the sending rate based on network conditions  
 
-Congestion control: Adjusts sending rate based on network conditions
+#### TCP Header Fields
+- Source Port  
+- Destination Port  
+- Sequence Number  
+- Acknowledgment Number  
+- Window Size  
+- Flags (SYN, ACK, FIN, RST)  
 
-TCP Header Fields:
+#### TCP 3-Way Handshake
+1. **SYN** – Client sends a synchronization request  
+2. **SYN-ACK** – Server acknowledges and synchronizes  
+3. **ACK** – Client acknowledges, connection established  
 
-Source/Destination Port
+#### Use Cases
+- Web Browsing (HTTP/HTTPS)  
+- Email (SMTP/IMAP)  
+- File Transfer (FTP)
 
-Sequence Number
+---
 
-Acknowledgment Number
+### UDP (User Datagram Protocol)
 
-Window Size
+#### Characteristics
+- **Connectionless**: No connection setup required  
+- **Unreliable**: No delivery guarantees  
+- **No Ordering**: Packets may arrive out of sequence  
+- **No Flow Control**: Can overwhelm the receiver  
+- **Faster**: Lower overhead compared to TCP  
 
-Flags (SYN, ACK, FIN, RST)
+#### UDP Header Fields
+- Source Port  
+- Destination Port  
+- Length  
+- Checksum  
 
-TCP 3-Way Handshake:
+#### Use Cases
+- DNS (Domain Name System)  
+- VoIP (Voice over IP)  
+- Video Streaming  
+- Online Gaming  
 
-SYN: Client sends synchronization request
+---
 
-SYN-ACK: Server acknowledges and synchronizes
+## Network Congestion
 
-ACK: Client acknowledges, connection established
+**Congestion** occurs when network resources are overloaded by too much data, resulting in **packet loss**, **delays**, and **poor performance**.
 
-Use Cases: Web browsing (HTTP), email (SMTP), file transfer (FTP)
+---
 
-UDP (User Datagram Protocol)
-Characteristics:
+## TCP Congestion Control Algorithms
 
-Connectionless: No establishment required
+| Algorithm | Purpose | Mechanism | Phase |
+|------------|----------|------------|--------|
+| **Slow Start** | Gradually finds available bandwidth | cwnd doubles every RTT | Exponential growth until threshold |
+| **Congestion Avoidance** | Conservatively increases throughput | cwnd increases by 1 MSS per RTT | Additive growth |
+| **Fast Retransmit** | Detects lost packets faster | Retransmits after 3 duplicate ACKs | Avoids timeout delay |
+| **Fast Recovery** | Resumes sending after loss | Reduces cwnd by half | Continues in avoidance phase |
 
-Unreliable: No delivery guarantees
+**AIMD (Additive Increase Multiplicative Decrease)**  
+- Increase: `cwnd += 1 MSS per RTT` (Additive)  
+- Decrease: `cwnd = cwnd / 2` on packet loss (Multiplicative)
 
-No ordering: Packets may arrive out of order
+---
 
-No flow control: Can overwhelm receiver
+## Java Implementation Examples
 
-Faster: Lower overhead than TCP
-
-UDP Header Fields:
-
-Source/Destination Port
-
-Length
-
-Checksum
-
-Use Cases: DNS, VoIP, video streaming, online games
-
-What is Congestion?
-Congestion occurs when network resources are overwhelmed by too much data, causing packet loss and degraded performance.
-
-TCP Congestion Control Algorithms
-1. Slow Start
-Purpose: Gradually find available bandwidth
-
-Mechanism: Congestion Window (cwnd) doubles every RTT
-
-Phase: Exponential growth until threshold or loss
-
-2. Congestion Avoidance
-Purpose: Conservative growth after slow start
-
-Mechanism: cwnd increases by 1 MSS per RTT
-
-Phase: Additive increase
-
-3. Fast Retransmit
-Trigger: 3 duplicate ACKs received
-
-Action: Retransmit lost packet without waiting for timeout
-
-4. Fast Recovery
-After fast retransmit: Reduce cwnd by half
-
-Continue in congestion avoidance phase
-
-AIMD (Additive Increase Multiplicative Decrease)
-Increase: cwnd += 1 MSS per RTT (additive)
-
-Decrease: cwnd = cwnd / 2 on packet loss (multiplicative)
-
-
-*/
-
-// TCP Server
+### TCP Server
+```java
 import java.net.*;
 import java.io.*;
 
@@ -110,7 +100,6 @@ public class TCPServer {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected: " + clientSocket.getInetAddress());
                 
-                // Handle client in separate thread
                 new Thread(() -> handleClient(clientSocket)).start();
             }
         } catch (IOException e) {
@@ -126,7 +115,7 @@ public class TCPServer {
             String message;
             while ((message = in.readLine()) != null) {
                 System.out.println("Received: " + message);
-                out.println("Echo: " + message); // Echo back to client
+                out.println("Echo: " + message);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -134,7 +123,9 @@ public class TCPServer {
     }
 }
 
-// TCP Client
+
+
+//TCP Client
 
 import java.net.*;
 import java.io.*;
@@ -150,8 +141,8 @@ public class TCPClient {
             
             String userInput;
             while ((userInput = stdIn.readLine()) != null) {
-                out.println(userInput); // Send to server
-                System.out.println("Server response: " + in.readLine()); // Read response
+                out.println(userInput);
+                System.out.println("Server response: " + in.readLine());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -159,7 +150,8 @@ public class TCPClient {
     }
 }
 
-// UDP server 
+
+//UDP Server
 
 import java.net.*;
 
@@ -171,12 +163,11 @@ public class UDPServer {
             
             while (true) {
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-                socket.receive(packet); // Receive packet
+                socket.receive(packet);
                 
                 String message = new String(packet.getData(), 0, packet.getLength());
                 System.out.println("Received: " + message);
                 
-                // Echo back to client
                 InetAddress clientAddress = packet.getAddress();
                 int clientPort = packet.getPort();
                 byte[] response = ("Echo: " + message).getBytes();
@@ -190,7 +181,8 @@ public class UDPServer {
     }
 }
 
-// UDP client 
+
+//UDP Client
 
 import java.net.*;
 import java.util.Scanner;
@@ -208,13 +200,11 @@ public class UDPClient {
                 String message = scanner.nextLine();
                 if ("exit".equalsIgnoreCase(message)) break;
                 
-                // Send message
                 byte[] sendData = message.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(
                     sendData, sendData.length, serverAddress, 8080);
                 socket.send(sendPacket);
                 
-                // Receive response
                 DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
                 socket.receive(receivePacket);
                 String response = new String(receivePacket.getData(), 0, receivePacket.getLength());
@@ -225,3 +215,5 @@ public class UDPClient {
         }
     }
 }
+
+
