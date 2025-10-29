@@ -1,95 +1,90 @@
-/*
-What is the Network Layer?
-The Network Layer is Layer 3 in the OSI model responsible for logical addressing, routing, and packet forwarding between different networks.
+# 🌐 Network Layer (Layer 3 of the OSI Model)
 
-Key Purpose: Enables end-to-end delivery of packets across multiple networks.
+## 🧩 What is the Network Layer?
 
-IPv4 (Internet Protocol Version 4) 
-Address Size: 32-bit (4.3 billion addresses)
+The **Network Layer** is **Layer 3** in the **OSI model** responsible for **logical addressing**, **routing**, and **packet forwarding** between different networks.
 
-Format: Dotted-decimal notation (192.168.1.1)
+**Key Purpose:** Enables **end-to-end delivery** of packets across multiple networks.
 
-Address Classes:
+---
 
-Class A: 1.0.0.0 to 126.255.255.255 (Large networks)
+## ⚙️ IPv4 (Internet Protocol Version 4)
 
-Class B: 128.0.0.0 to 191.255.255.255 (Medium networks)
+- **Address Size:** 32-bit (≈ 4.3 billion addresses)  
+- **Format:** Dotted-decimal notation (e.g., `192.168.1.1`)
 
-Class C: 192.0.0.0 to 223.255.255.255 (Small networks)
+### **Address Classes**
+| Class | Range | Usage |
+|--------|--------|--------|
+| **A** | 1.0.0.0 – 126.255.255.255 | Large networks |
+| **B** | 128.0.0.0 – 191.255.255.255 | Medium networks |
+| **C** | 192.0.0.0 – 223.255.255.255 | Small networks |
+| **D** | 224.0.0.0 – 239.255.255.255 | Multicast |
+| **E** | 240.0.0.0 – 255.255.255.255 | Experimental |
 
-Class D: Multicast (224.0.0.0 to 239.255.255.255)
+---
 
-Class E: Experimental
+## 🌍 IPv6 (Internet Protocol Version 6)
 
-IPv6 (Internet Protocol Version 6)
-Address Size: 128-bit (340 undecillion addresses)
+- **Address Size:** 128-bit (≈ 340 undecillion addresses)  
+- **Format:** Hexadecimal notation (e.g., `2001:0db8:85a3:0000:0000:8a2e:0370:7334`)
 
-Format: Hexadecimal notation (2001:0db8:85a3:0000:0000:8a2e:0370:7334)
+### **Benefits**
+- Larger address space  
+- Built-in security (**IPsec**)  
+- Better header format  
+- Auto-configuration  
+- Improved multicast  
 
-Benefits:
+---
 
-Larger address space
+## 🚦 What is Routing?
 
-Built-in security (IPsec)
+**Routing** is the process of **selecting paths** in a network to send data from source to destination.
 
-Better header format
+---
 
-Auto-configuration
+## 🧭 Routing Protocols
 
-Improved multicast
+### **1. Distance Vector Protocols**
+- **How it works:** Routers share entire routing tables with neighbors  
+- **Algorithm:** Bellman-Ford  
+- **Examples:** RIP, IGRP  
+- **Advantage:** Simple to implement  
+- **Disadvantage:** Slow convergence, count-to-infinity problem  
 
-What is Routing?
-Routing is the process of selecting paths in a network to send data from source to destination.
+### **2. Link State Protocols**
+- **How it works:** Routers share info about directly connected links  
+- **Algorithm:** Dijkstra (Shortest Path First)  
+- **Examples:** OSPF, IS-IS  
+- **Advantage:** Fast convergence, loop prevention  
+- **Disadvantage:** Higher CPU and memory usage  
 
-Routing Protocols
-1. Distance Vector Protocols
-How it works: Routers share entire routing tables with neighbors
+### **3. Path Vector Protocols**
+- **How it works:** Shares complete path information  
+- **Example:** BGP (Border Gateway Protocol)  
+- **Use Case:** Internet backbone routing  
 
-Algorithm: Bellman-Ford
+---
 
-Examples: RIP (Routing Information Protocol), IGRP
+## 🖧 Key Network Layer Devices
 
-Advantage: Simple to implement
+### **Router**
+- **Operates at:** Layer 3  
+- **Function:** Connects different networks, makes routing decisions  
+- **Uses:** IP addresses for forwarding  
 
-Disadvantage: Slow convergence, count-to-infinity problem
+### **Layer 3 Switch**
+- **Combines:** Switching (Layer 2) + Routing (Layer 3)  
+- **Use Case:** Faster inter-VLAN routing  
 
-2. Link State Protocols
-How it works: Routers share information about their directly connected links
+---
 
-Algorithm: Dijkstra (Shortest Path First)
+## 💻 Java Implementation
 
-Examples: OSPF (Open Shortest Path First), IS-IS
+### **Getting IP Address Information**
 
-Advantage: Fast convergence, loop prevention
-
-Disadvantage: More CPU and memory usage
-
-3. Path Vector Protocols
-How it works: Shares complete path information
-
-Example: BGP (Border Gateway Protocol)
-
-Use Case: Internet backbone routing
-
-Key Network Layer Devices
-Router
-Operates at: Network Layer (Layer 3)
-
-Function: Connects different networks, makes routing decisions
-
-Uses: IP addresses for forwarding
-
-Layer 3 Switch
-Combines: Switching (Layer 2) + Routing (Layer 3) capabilities
-
-Faster than routers for inter-VLAN routing
-
-
-*/
-
-
-// Getting IP Address Information:
-
+```java
 import java.net.*;
 
 public class NetworkLayerDemo {
@@ -117,49 +112,5 @@ public class NetworkLayerDemo {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-    }
-}
-
-
-// Simple Router Simulation:
-
-import java.util.*;
-
-class RoutingTable {
-    private Map<String, String> routes = new HashMap<>();
-    
-    public void addRoute(String destination, String nextHop) {
-        routes.put(destination, nextHop);
-    }
-    
-    public String getNextHop(String destination) {
-        return routes.get(destination);
-    }
-    
-    public void printRoutingTable() {
-        System.out.println("Destination -> Next Hop");
-        routes.forEach((dest, hop) -> 
-            System.out.println(dest + " -> " + hop));
-    }
-}
-
-public class SimpleRouter {
-    public static void main(String[] args) {
-        RoutingTable router = new RoutingTable();
-        
-        // Add routes
-        router.addRoute("192.168.1.0", "Direct");
-        router.addRoute("10.0.0.0", "192.168.1.1");
-        router.addRoute("172.16.0.0", "192.168.1.2");
-        
-        // Simulate packet routing
-        String[] packets = {"192.168.1.5", "10.0.0.10", "172.16.1.20"};
-        
-        for (String packet : packets) {
-            String nextHop = router.getNextHop(packet.substring(0, packet.lastIndexOf('.')) + ".0");
-            System.out.println("Packet to " + packet + " -> Next Hop: " + nextHop);
-        }
-        
-        router.printRoutingTable();
     }
 }
