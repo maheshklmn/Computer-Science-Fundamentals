@@ -1,0 +1,98 @@
+# ⚙️ CPU Scheduling
+
+CPU scheduling is the process by which the operating system decides which process runs on the CPU when multiple processes are ready.  
+The scheduler selects from ready processes and allocates the CPU.
+
+---
+
+## ✅ 1. FCFS (First-Come, First-Served)
+
+**Concept:**  
+Processes are executed in the order they arrive  
+
+**Type:**  
+Non-preemptive  
+
+**Advantage:**  
+Simple and fair  
+
+**Disadvantage:**  
+Poor performance (convoy effect)  
+
+### Example:
+```
+Processes: P1(24ms), P2(3ms), P3(3ms)
+Order: P1 → P2 → P3
+Average Wait Time = (0 + 24 + 27) / 3 = 17ms
+```
+
+---
+
+## ✅ 2. SJF (Shortest Job First)
+
+**Concept:**  
+Process with smallest CPU burst runs first  
+
+**Type:**  
+Can be pre-emptive or non-pre-emptive  
+
+**Advantage:**  
+Minimizes average waiting time  
+
+**Disadvantage:**  
+Starvation of long processes  
+
+### Example:
+```
+Processes: P1(6ms), P2(8ms), P3(7ms), P4(3ms)
+Order: P4 → P1 → P3 → P2
+```
+
+---
+
+## ✅ 3. Round Robin (RR)
+
+**Concept:**  
+Each process gets a small time quantum (time slice)  
+
+**Type:**  
+Pre-emptive  
+
+**Advantage:**  
+Fair to all processes; good for time-sharing  
+
+**Disadvantage:**  
+High overhead with small time quantum  
+
+### Example:
+```
+Time Quantum = 4ms
+Processes: P1(24ms), P2(3ms), P3(3ms)
+
+Execution:
+P1(4) → P2(3) → P3(3) → P1(4) → ...
+```
+
+---
+
+## ✅ 4. Priority Scheduling (PS)
+
+**Concept:**  
+Each process has priority; higher priority runs first  
+
+**Type:**  
+Pre-emptive or non-pre-emptive  
+
+**Advantage:**  
+Important processes get attention  
+
+**Disadvantage:**  
+Starvation of low-priority processes  
+
+### Example:
+```
+Processes: P1(priority=3), P2(priority=1), P3(priority=2)
+Order: P2 → P3 → P1
+```
+
+---
